@@ -17,9 +17,6 @@ public class Order {
 //    @Column(name = "CreateDate", nullable = true)
 //    private Timestamp createDate;
     @Basic
-    @Column(name = "CreatID", nullable = true)
-    private Long creatId;
-    @Basic
     @Column(name = "ShipName", nullable = true, length = 50)
     private String shipName;
     @Basic
@@ -44,6 +41,10 @@ public class Order {
     @ManyToOne
     @JoinColumn(name = "Status", referencedColumnName = "ID")
     private StatusOrder statusOrder;
+
+    @ManyToOne
+    @JoinColumn(name = "created_id", referencedColumnName = "ID")
+    private User user;
 
 
 }

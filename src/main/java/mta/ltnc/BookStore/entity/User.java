@@ -25,10 +25,10 @@ public class User {
     @Column(name = "Email", nullable = true, length = 100)
     private String email;
     @Basic
-    @Column(name = "Password", nullable = true, length = 50)
+    @Column(name = "Password", nullable = true, length = 255)
     private String password;
     @Basic
-    @Column(name = "Name", nullable = true, length = 50)
+    @Column(name = "Name", nullable = true, columnDefinition = "nvarchar(255)")
     private String name;
 //    @Basic
 //    @Column(name = "DayOfBirth", nullable = true)
@@ -37,7 +37,7 @@ public class User {
     @Column(name = "Phone", nullable = true, length = 50)
     private String phone;
     @Basic
-    @Column(name = "Address", nullable = true, length = 255)
+    @Column(name = "Address", nullable = true,columnDefinition = "nvarchar(255)")
     private String address;
     @Basic
     @Column(name = "Status", nullable = false)
