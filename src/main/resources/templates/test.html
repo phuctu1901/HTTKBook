@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+<script>
+    loadData();
+    function loadData() {
+        CategoryService.getAll().done(function (response) {
+            $scope.$apply(function () {
+                console.log(response);
+                vm.categories = response.data;
+            })
+        })
+    }
+
+</script>
+</body>
+</html>

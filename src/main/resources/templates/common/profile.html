@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html xmlns:layout="https://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{index}"
+      xmlns:th="https://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Cá nhân</title>
+    <link rel="stylesheet" href="libs/bootstrap.min.css">
+    <style>
+    </style>
+</head>
+<body>
+<div layout:fragment="content" ng-controller="ProfileController as vm">
+    <md-toolbar style="background-color: rgb(250,250,250);" class="md-table-toolbar md-default" layout="row"
+                layout-align="center center">
+        <div class="md-toolbar-tools" flex>
+            <span>Cập nhật thông tin</span>
+        </div>
+        <div flex layout="row" layout-align="end center">
+            <md-button class="md-raised md-warn" href="/" style="color: rgb(255,255,255);">
+                Trang chủ
+            </md-button>
+        </div>
+    </md-toolbar>
+    <md-content flex layout="column" style="background-color: #fff;">
+        <div flex style="padding-top: 30px;">
+            <div class="col-md-4 col-md-offset-4">
+                <div class="form-group">
+                    <label for="firstName">Họ tên</label>
+                    <input type="text" class="form-control" id="firstName" ng-model="vm.customer.name">
+                </div>
+
+                <div class="form-group">
+                    <label for="address">Địa chỉ</label>
+                    <input type="text" class="form-control" id="address" ng-model="vm.customer.address">
+                </div>
+                <div class="form-group">
+                    <label for="phone">Số điện thoại</label>
+                    <input disabled type="text" class="form-control" id="phone" ng-model="vm.customer.phone">
+                </div>
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="text" class="form-control" id="email" ng-model="vm.account.email">
+                </div>
+                <div class="form-group">
+                    <label for="creditNumber">Credit Number</label>
+                    <input type="text" class="form-control" id="creditNumber" ng-model="vm.customer.creditNumber">
+                </div>
+                <button class="btn btn-default" ng-click="vm.update()">Cập nhật</button>
+
+            </div>
+        </div>
+    </md-content>
+</div>
+
+<th:block layout:fragment="scripts">
+</th:block>
+</body>
+
+</html>

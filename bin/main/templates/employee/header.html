@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+
+</head>
+<body>
+<header th:fragment="header" class="main-header">
+    <!-- Logo -->
+    <a href="#" class="logo" style="background: rgb(190,79,34)">
+        <!-- mini logo for sidebar mini 50x50 pixels -->
+        <span class="logo-mini"><b>A</b></span>
+        <!-- logo for regular state and mobile devices -->
+        <span class="logo-lg"><b>Nhân viên</b></span>
+    </a>
+    <!-- Header Navbar: style can be found in header.less -->
+    <nav class="navbar navbar-static-top" style="background: rgb(255,87,34)">
+        <!-- Sidebar toggle button-->
+        <a href="#" class="sidebar-toggle" data-toggle="push-menu" role="button">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+        </a>
+
+        <div class="navbar-custom-menu">
+            <ul class="nav navbar-nav">
+                <!-- User Account: style can be found in dropdown.less -->
+                <li class="dropdown user user-menu">
+                    <a href="/password">
+                        Đổi mật khẩu
+                    </a>
+                </li>
+                <li class="dropdown user user-menu">
+                    <a href="/logout">
+                        Đăng xuất
+                    </a>
+                </li>
+                <!-- Control Sidebar Toggle Button -->
+            </ul>
+        </div>
+    </nav>
+</header>
+<aside th:fragment="slide-bar" class="main-sidebar">
+    <!-- sidebar: style can be found in sidebar.less -->
+    <section class="sidebar">
+        <!-- Sidebar user panel -->
+        <div class="user-panel">
+            <div class="pull-left image">
+                <img style="cursor: pointer" title="Đổi mật khẩu" onclick="doiMatKhau()" src="/images/avatar.jpg" class="img-circle" alt="User Image">
+            </div>
+            <div class="pull-left info">
+                <p th:text="${user}"></p>
+
+                <a href="#">Cơ sở: [[${store}]]</a>
+            </div>
+        </div>
+
+        <!-- /.search form -->
+        <!-- sidebar menu: : style can be found in sidebar.less -->
+        <ul class="sidebar-menu" data-widget="tree">
+            <li class="header">MAIN NAVIGATION</li>
+            <li th:class="${page == 'sale' ? 'active':''}">
+                <a th:href="${page == 'sale' ? '#':'/employee/sale'}">
+                    <i class="fa fa-th"></i> <span>Bán hàng</span>
+                </a>
+            </li>
+            <li th:class="${page == 'history' ? 'active':''}">
+                <a th:href="${page == 'history' ? '#':'/employee/history'}">
+                    <i class="fa fa-files-o"></i> <span>Lịch sử</span>
+                </a>
+
+            </li>
+        </ul>
+    </section>
+    <!-- /.sidebar -->
+</aside>
+</body>
+</html>

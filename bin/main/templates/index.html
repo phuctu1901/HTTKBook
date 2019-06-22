@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html xmlns:layout="https://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:th="https://www.thymeleaf.org">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="/libs/bootstrap.min.css">
+    <link rel="stylesheet" href="/libs/angular/angular-material.min.css">
+    <link rel="stylesheet" href="/css/common.css">
+    <link rel="stylesheet" href="/libs/md-data-table/md-data-table.min.css">
+
+    <script src="/libs/jquery.min.js"></script>
+    <script src="/libs/bootstrap.min.js"></script>
+    <script src="/libs/angular/angular.min.js"></script>
+    <script src="/libs/angular/angular-animate.min.js"></script>
+    <script src="/libs/angular/angular-aria.min.js"></script>
+    <script src="/libs/angular/angular-messages.min.js"></script>
+    <script src="/libs/angular/angular-material.min.js"></script>
+    <script src="/libs/md-data-table/md-data-table.min.js"></script>
+    <script src="/libs/highcharts/code/highcharts.js"></script>
+    <script src="/libs/star-rating/index.js"></script>
+
+
+    <title>Trang chủ</title>
+</head>
+<body ng-app="BookStoreApp" ng-controller="AppController as vm" layout="column" ng-cloak>
+<div th:replace="layout/navbar :: navbar"></div>
+<div layout:fragment="content" layout="column" flex>
+    <div layout="column" layout-align="center center" flex ng-if="vm.books == null">
+        <img src="/images/loading.gif">
+        <p style="color: #bbb">Đang tải...</p>
+    </div>
+    <md-content layout="row" flex layout-wrap ng-if="vm.books != null">
+        <div flex="10"></div>
+        <div flex layout="row" layout-wrap>
+            <div id="home" ng-repeat="book in vm.books | filter: vm.search" flex="20">
+                <a ng-href="/book/{{book.id}}" style="margin: 0; padding: 0; text-decoration: none">
+                    <md-card>
+                        <img style="height: 200px; object-fit: cover"
+                             ng-src="{{book.imageUrl != null ? book.imageUrl : '/images/no-image.png'}}"
+                             class="md-card-image" alt="Washed Out">
+
+                        <md-card-content class="text-center">
+                        <span style="font-size: 10pt; font-weight: 600;">
+                            <span title="{{book.name}}">{{book.name | limitTo: 20}}</span>
+                            <span ng-if="book.name.length > 20">...</span>
+                        </span>
+                        </md-card-content>
+                        <md-card-actions layout="column" layout-align="end center">
+                            <star-rating-comp read-only="true" rating="vm.getRating(book.avgRate)"
+                                              size="'medium'"></star-rating-comp>
+                            <md-button class="md-warn" aria-label="book" flex>
+                                <p><h4>{{book.price | currency:'':0 }} ₫</h4></p>
+                            </md-button>
+                        </md-card-actions>
+                    </md-card>
+                </a>
+            </div>
+        </div>
+        <div flex="10"></div>
+    </md-content>
+</div>
+<!--Module-->
+<script src="/js/app.module.js"></script>
+
+<!--Service-->
+<script src="/js/service/account.service.js"></script>
+<script src="/js/service/alert.service.js"></script>
+<script src="/js/service/book-store.service.js"></script>
+<script src="/js/service/book.service.js"></script>
+<script src="/js/service/category.service.js"></script>
+<script src="/js/service/book-quantity.service.js"></script>
+<script src="/js/service/bill.service.js"></script>
+
+<!--Controller-->
+<script src="/js/app.controller.js"></script>
+<script src="/js/admin/dashboard.controller.js"></script>
+<script src="/js/admin/account.controller.js"></script>
+<script src="/js/admin/book.controller.js"></script>
+<script src="/js/admin/bill.controller.js"></script>
+<script src="/js/admin/category.controller.js"></script>
+<script src="/js/admin/book-quantity.controller.js"></script>
+
+
+<script src="/js/book/book-detail.controller.js"></script>
+
+<script src="/js/checker/checker.controller.js"></script>
+
+
+<script src="/js/customer/register.controller.js"></script>
+<script src="/js/customer/order.controller.js"></script>
+<script src="/js/customer/history.controller.js"></script>
+
+<script src="/js/common/profile.controller.js"></script>
+<script src="/js/common/password.controller.js"></script>
+
+<script>
+    let link = window.location.href;
+    if (link.indexOf("admin") != -1 || link.indexOf("employee") != -1 || link.indexOf("login") != -1 || link.indexOf("register") != -1 || link.indexOf("password") != -1 || link.indexOf("history") != -1 || link.indexOf("profile") != -1 || link.indexOf("checker") != -1) {
+        $("#navbar").remove();
+    }
+</script>
+
+<th:block layout:fragment="scripts">
+</th:block>
+
+</body>
+</html>
