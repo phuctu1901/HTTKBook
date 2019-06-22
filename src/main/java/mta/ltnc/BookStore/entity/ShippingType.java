@@ -3,14 +3,14 @@ package mta.ltnc.BookStore.entity;
 import lombok.Data;
 
 import javax.persistence.*;
-import java.util.Collection;
 
 @Data
 @Entity
 public class ShippingType {
+    private static final long serialVersionUID = 1L;
     @Id
-    @Column(name = "ID", nullable = false)
-    private long id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
     @Basic
     @Column(name = "TypeShip", nullable = false, length = 100)
     private String typeShip;

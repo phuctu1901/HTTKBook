@@ -3,16 +3,16 @@ package mta.ltnc.BookStore.entity;
 import lombok.Data;
 
 import javax.persistence.*;
-import java.util.Collection;
 
 @Data
 @Entity
 public class NewsType {
+    private static final long serialVersionUID = 1L;
     @Id
-    @Column(name = "ID", nullable = false)
-    private int id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
     @Basic
-    @Column(name = "Name", nullable = true, length = 250)
+    @Column(name = "Name", nullable = true, columnDefinition = "nvarchar(255)")
     private String name;
 
 

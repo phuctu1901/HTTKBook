@@ -3,14 +3,14 @@ package mta.ltnc.BookStore.entity;
 import lombok.Data;
 
 import javax.persistence.*;
-import java.util.Collection;
 
 @Data
 @Entity
 public class Role {
+    private static final long serialVersionUID = 1L;
     @Id
-    @Column(name = "ID", nullable = false, length = 50)
-    private String id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
     @Basic
     @Column(name = "Name", nullable = true, length = 50)
     private String name;

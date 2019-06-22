@@ -8,11 +8,12 @@ import java.sql.Timestamp;
 @Data
 @Entity
 public class News {
+    private static final long serialVersionUID = 1L;
     @Id
-    @Column(name = "ID", nullable = false)
-    private long id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
     @Basic
-    @Column(name = "Title", nullable = true, length = 250)
+    @Column(name = "Title", nullable = true, columnDefinition = "nvarchar(255)")
     private String title;
     @Basic
     @Column(name = "Created", nullable = true)

@@ -9,16 +9,17 @@ import javax.persistence.*;
 @Table(name = "Order_Detail", schema = "dbo", catalog = "BookShop3")
 public class OrderDetail {
 
-
+    private static final long serialVersionUID = 1L;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
     @Basic
     @Column(name = "Quantity", nullable = true)
     private Integer quantity;
     @Basic
     @Column(name = "Price", nullable = true, precision = 0)
     private Integer price;
-    @Id
-    @Column(name = "ID", nullable = false)
-    private int id;
+
     @ManyToOne
     @JoinColumn(name = "BookID", referencedColumnName = "ID", nullable = false)
     private Book book;

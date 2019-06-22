@@ -2,17 +2,15 @@ package mta.ltnc.BookStore.entity;
 
 import lombok.Data;
 
-import javax.persistence.Basic;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Data
 @Entity
 public class StatusOrder {
+    private static final long serialVersionUID = 1L;
     @Id
-    @Column(name = "ID", nullable = false)
-    private int id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
     @Basic
     @Column(name = "Name", nullable = true, length = 50)
     private String name;

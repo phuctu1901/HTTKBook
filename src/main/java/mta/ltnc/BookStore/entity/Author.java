@@ -27,4 +27,7 @@ public class Author {
     @JoinColumn(name = "Image", referencedColumnName = "ID")
     private Image imageByImage;
     @ManyToOne
-    @JoinColumn(name = "AuthorType", ref
+    @JoinColumn(name = "AuthorType", referencedColumnName = "ID")
+    private AuthorType authorType;
+
+}

@@ -8,9 +8,10 @@ import java.sql.Timestamp;
 @Data
 @Entity
 public class Purchase {
+    private static final long serialVersionUID = 1L;
     @Id
-    @Column(name = "ID", nullable = false)
-    private long id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
     @Basic
     @Column(name = "Creater", nullable = false)
     private long creater;

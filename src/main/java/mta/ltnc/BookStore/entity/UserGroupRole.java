@@ -9,14 +9,14 @@ import javax.persistence.*;
 @Table(name = "UserGroup_Role", schema = "dbo", catalog = "BookShop3")
 public class UserGroupRole {
 
+    private static final long serialVersionUID = 1L;
     @Id
-    @Column(name = "ID", nullable = false)
-    private int id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
     @ManyToOne
     @JoinColumn(name = "UserGroupID", referencedColumnName = "ID", nullable = false)
     private UserGroup userGroup;
     @ManyToOne
     @JoinColumn(name = "RoleID", referencedColumnName = "ID", nullable = false)
     private Role role;
-
 }

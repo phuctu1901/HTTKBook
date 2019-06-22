@@ -9,14 +9,15 @@ import java.sql.Timestamp;
 @Data
 @Entity
 public class Book {
+    private static final long serialVersionUID = 1L;
     @Id
-    @Column(name = "ID", nullable = false)
-    private long id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
     @Basic
-    @Column(name = "Code", nullable = true, length = 50)
+    @Column(name = "Code", nullable = true, columnDefinition = "nvarchar(255)")
     private String code;
     @Basic
-    @Column(name = "Name", nullable = true, length = 250)
+    @Column(name = "Name", nullable = true, columnDefinition = "nvarchar(255)")
     private String name;
 
     @Basic
@@ -50,7 +51,7 @@ public class Book {
     @Column(name = "Status", nullable = true)
     private Boolean status;
     @Basic
-    @Column(name = "Description", nullable = true, length = 2147483647)
+    @Column(name = "Description", nullable = true, columnDefinition = "text")
     private String description;
     @Basic
     @Column(name = "CreateDate", nullable = true)

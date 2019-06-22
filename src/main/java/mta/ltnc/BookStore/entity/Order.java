@@ -9,9 +9,10 @@ import java.sql.Timestamp;
 @Entity
 @Table(name="[order]")
 public class Order {
+    private static final long serialVersionUID = 1L;
     @Id
-    @Column(name = "ID", nullable = false)
-    private long id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 //    @Basic
 //    @Column(name = "CreateDate", nullable = true)
 //    private Timestamp createDate;

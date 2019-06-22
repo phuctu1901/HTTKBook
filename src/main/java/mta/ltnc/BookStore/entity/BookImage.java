@@ -9,9 +9,10 @@ import javax.persistence.*;
 @Table(name = "Book_Image", schema = "dbo", catalog = "BookShop3")
 public class BookImage {
 
+    private static final long serialVersionUID = 1L;
     @Id
-    @Column(name = "ID", nullable = false)
-    private int id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
     @ManyToOne
     @JoinColumn(name = "BookID", referencedColumnName = "ID", nullable = false)
     private Book book;
