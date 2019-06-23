@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:layout="https://www.ultraq.net.nz/thymeleaf/layout"
-      xmlns:th="https://www.thymeleaf.org">
+      xmlns:th="https://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/extras/spring-security">>
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -73,10 +74,10 @@
                     <li class="has-sub nav-item"><a href="#"><i class="ft-droplet"></i><span data-i18n=""
                                                                                                        class="menu-title">Sách</span></a>
                         <ul class="menu-content">
-                            <li th:classappend="${#httpServletRequest.getRequestURI() == '/dashboard/book' ? 'active':''}">
-                                <a href="dashboard1.html" class="menu-item">Tất cả sách</a>
+                            <li th:classappend="${#httpServletRequest.getRequestURI() == '/admin/book' ? 'active':''}">
+                                <a href="/admin/book" class="menu-item">Tất cả sách</a>
                             </li>
-                            <li th:classappend="${#httpServletRequest.getRequestURI() == '/dashboard/book/add' ? 'active':''}">
+                            <li th:classappend="${#httpServletRequest.getRequestURI() == '/admin/book/add' ? 'active':''}">
                                 <a href="dashboard2.html" class="menu-item">Thêm sách</a>
                             </li>
                         </ul>
@@ -97,14 +98,11 @@
                     <li class="has-sub nav-item"><a href="#"><i class="ft-droplet"></i><span data-i18n=""
                                                                                              class="menu-title">Danh mục sách</span></a>
                         <ul class="menu-content">
-                            <li th:classappend="${#httpServletRequest.getRequestURI() == '/dashboard/book/add' ? 'active':''}">
-                                <a href="dashboard2.html" class="menu-item">Thêm danh mục sách chi tiết</a>
+                            <li th:classappend="${#httpServletRequest.getRequestURI() == '/admin/bookcategory' ? 'active':''}">
+                                <a href="/admin/bookcategory" class="menu-item">Danh mục chi tiết</a>
                             </li>
-                            <li th:classappend="${#httpServletRequest.getRequestURI() == '/dashboard/book' ? 'active':''}">
-                                <a href="dashboard1.html" class="menu-item">Tất cả danh mục sách lớn</a>
-                            </li>
-                            <li th:classappend="${#httpServletRequest.getRequestURI() == '/dashboard/book/add' ? 'active':''}">
-                                <a href="dashboard2.html" class="menu-item">Tất cả danh mục sách chi tiết</a>
+                            <li th:classappend="${#httpServletRequest.getRequestURI() == '/admin/category' ? 'active':''}">
+                                <a href="/admin/category" class="menu-item">Danh mục lớn</a>
                             </li>
                         </ul>
                     </li>
@@ -145,28 +143,29 @@
                             class="sr-only">Toggle navigation</span><span class="icon-bar"></span><span
                             class="icon-bar"></span><span class="icon-bar"></span></button>
                     <form role="search" class="navbar-form navbar-right mt-1">
-                        <div class="position-relative has-icon-right">
-                            <input type="text" placeholder="Search" class="form-control round"/>
-                            <div class="form-control-position"><i class="ft-search"></i></div>
-                        </div>
+<!--                        <div class="position-relative has-icon-right">-->
+<!--                            <input type="text" placeholder="Search" class="form-control round"/>-->
+<!--                            <div class="form-control-position"><i class="ft-search"></i></div>-->
+<!--                        </div>-->
                     </form>
                 </div>
                 <div class="navbar-container">
                     <div id="navbarSupportedContent" class="collapse navbar-collapse">
                         <ul class="navbar-nav">
-                            <li class="nav-item mr-2"><a id="navbar-fullscreen" href="javascript:;"
-                                                         class="nav-link apptogglefullscreen"><i
+                            <li class="nav-item mr-2"><a id="navbar-fullscreen" href="javascript:;" class="nav-link apptogglefullscreen"><i
                                     class="ft-maximize font-medium-3 blue-grey darken-4"></i>
                                 <p class="d-none">fullscreen</p></a></li>
 
-                            <li class="dropdown nav-item"><a id="dropdownBasic3" href="#" data-toggle="dropdown"
-                                                             class="nav-link position-relative dropdown-toggle"><i
+                            <li class="dropdown nav-item"><a id="dropdownBasic3" href="#" data-toggle="dropdown" class="nav-link position-relative dropdown-toggle"><i
                                     class="ft-user font-medium-3 blue-grey darken-4"></i>
-                                <p class="d-none">User Settings</p></a>
-                                <div ngbdropdownmenu="" aria-labelledby="dropdownBasic3"
-                                     class="dropdown-menu dropdown-menu-right"><a href="javascript:;"
-                                                                                                 class="dropdown-item py-1"><i
-                                        class="ft-edit mr-2"></i><span>Đổi mật khẩu</span></a>
+                                <p class="d-none" >User Settings</p></a>
+                                <div ngbdropdownmenu="" aria-labelledby="dropdownBasic3" class="dropdown-menu dropdown-menu-right">
+                                    <a href="javascript:;" class="dropdown-item py-1"><i
+                                            class="ft-user mr-2"></i><span th:text="${#authentication.getPrincipal().getUsername()}"></span>
+                                    </a>
+                                    <a href="javascript:;" class="dropdown-item py-1"><i
+                                        class="ft-edit mr-2"></i><span>Đổi mật khẩu</span>
+                                    </a>
                                     <div class="dropdown-divider"></div>
                                     <a href="javascript:;" class="dropdown-item"><i class="ft-power mr-2"></i><span>Đăng xuất</span></a>
                                 </div>
@@ -186,9 +185,9 @@
         </div>
 
         <footer class="footer footer-static footer-light">
-            <p class="clearfix text-muted text-sm-center px-2"><span>Copyright  &copy; 2018 <a
+            <p class="clearfix text-muted text-sm-center px-2"><span>Copyright  &copy; 2019 <a
                     href="https://themeforest.net/user/pixinvent/portfolio?ref=pixinvent" id="pixinventLink"
-                    target="_blank" class="text-bold-800 primary darken-2">PIXINVENT </a>, All rights reserved. </span>
+                    target="_blank" class="text-bold-800 primary darken-2">NGUYỄN PHÚC TÚ </a>, All rights reserved. </span>
             </p>
         </footer>
 

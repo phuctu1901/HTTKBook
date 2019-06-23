@@ -1,6 +1,6 @@
 package mta.ltnc.BookStore.controller.admin;
 
-import mta.ltnc.BookStore.service.admin.*;
+import mta.ltnc.BookStore.service.admin.BookService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -9,14 +9,14 @@ import org.springframework.web.servlet.ModelAndView;
 
 
 @Controller
-public class DashboardController {
+public class BookController {
     @Autowired
-    private CategoryService categoryService;
+    private BookService bookService;
 
-    @RequestMapping(value = "/admin/dashboard", method = RequestMethod.GET)
-    public ModelAndView dashboard() {
-        ModelAndView modelAndView = new ModelAndView("admin/dashboard/index");
-        modelAndView.addObject("categories", categoryService.findAll());
+    @RequestMapping(value = "/admin/book", method = RequestMethod.GET)
+    public ModelAndView listAllBook() {
+        ModelAndView modelAndView = new ModelAndView("admin/book/index");
+        modelAndView.addObject("books", bookService.findAll());
         return modelAndView;
     }
 }

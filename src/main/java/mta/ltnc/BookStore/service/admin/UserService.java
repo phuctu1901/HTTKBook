@@ -1,4 +1,4 @@
-package mta.ltnc.BookStore.service;
+package mta.ltnc.BookStore.service.admin;
 
 import mta.ltnc.BookStore.constant.*;
 import mta.ltnc.BookStore.dto.*;

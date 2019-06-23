@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html xmlns:layout="https://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="/admin/layout/index"
+      xmlns:th="https://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <title>Thêm danh mục lớn</title>
+</head>
+<body>
+<div layout:fragment="main-content">
+
+    <!-- Basic form layout section start -->
+    <section id="horizontal-form-layouts">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h4 class="card-title" id="horz-layout-basic">Thêm danh mục lớn</h4>
+                    </div>
+                    <div class="card-body">
+                        <div class="px-3">
+
+                            <form class="form form-horizontal"
+                                  action="#" th:action="@{/admin/category/addRequest}" th:object="${addCategory}"
+                                  method="post">
+                                <div class="form-body">
+                                    <h4 class="form-section"><i class="ft-bookmark"></i> Thông tin danh mục</h4>
+                                    <div class="form-group row">
+                                        <label class="col-md-3 label-control">Tên
+                                            danh mục: </label>
+                                        <div class="col-md-9">
+                                            <input th:field="*{name}" class="form-control"
+                                                   type="text"
+                                            >
+                                        </div>
+                                    </div>
+
+                                    <!--                                        <div class="form-group row">-->
+                                    <!--                                            <label class="col-md-3 label-control">Danh mục cha: </label>-->
+                                    <!--                                            <div class="col-md-9">-->
+                                    <!--                                                <select id="parent_id" name="parent_id"-->
+                                    <!--                                                        class="form-control">-->
+                                    <!--                                                    <option value="0" selected="" disabled="">Danh mục cha-->
+                                    <!--                                                    </option>-->
+
+                                    <!--                                                    <?php foreach ($tourparents as $tourparent): ?>-->
+                                    <!--                                                    <option-->
+                                    <!--                                                            value="{{$tourparent->id}}">{{$tourparent->title}}</option>-->
+                                    <!--                                                    <?php endforeach; ?>-->
+                                    <!--                                                </select>-->
+                                    <!--                                            </div>-->
+                                    <!--                                        </div>-->
+
+                                    <!--                                        <div class="form-group row">-->
+                                    <!--                                            <label class="col-md-3 label-control">Mô-->
+                                    <!--                                                tả: </label>-->
+                                    <!--                                            <div class="col-md-9">-->
+                                    <!--                                                            <textarea id="desc" rows="5" class="form-control"-->
+                                    <!--                                                                      name="desc"></textarea>-->
+
+
+                                    <!--                                            </div>-->
+                                    <!--                                        </div>-->
+
+
+                                    <!--                                        <div class="form-group row">-->
+                                    <!--                                            <label class="col-md-3 label-control">Ảnh đại diện: </label>-->
+                                    <!--                                            <div class="col-md-9">-->
+                                    <!--                                                <div class="input-group">-->
+                                    <!--                                                    <a id="category_thumb" data-input="category_thumb_data"-->
+                                    <!--                                                       data-preview="category_thumb_preview"-->
+                                    <!--                                                       class="btn btn-primary">-->
+                                    <!--                                                        <i class="fa fa-picture-o"></i> Choose-->
+                                    <!--                                                    </a>-->
+                                    <!--                                                    <input id="category_thumb_data" class="form-control"-->
+                                    <!--                                                           type="text"-->
+                                    <!--                                                           name="category_thumb_data">-->
+
+                                    <!--                                                </div>-->
+                                    <!--                                                <img id="category_thumb_preview"-->
+                                    <!--                                                     style="margin-top:15px;max-height:100px;">-->
+                                    <!--                                            </div>-->
+                                    <!--                                        </div>-->
+
+                                    <div class="form-group row">
+                                        <label class="col-md-3 label-control">Trạng thái: </label>
+                                        <div class="col-md-9">
+
+                                            <select id="isActive" name="isActive"
+                                                    class="form-control" th:field="*{status}">
+                                                <option value="0" selected="" disabled="">Chọn trạng thái cho danh
+                                                    mục
+                                                </option>
+                                                <option value=0>Không kích hoạt</option>
+                                                <option value=1>Kích hoạt</option>
+                                            </select>
+                                        </div>
+                                    </div>
+
+
+                                </div>
+
+
+                                <div class="form-actions">
+                                    <button type="button" class="btn btn-raised btn-warning mr-1">
+                                        <i class="ft-x"></i> Reset
+                                    </button>
+                                    <button type="submit" class="btn btn-raised btn-primary">
+                                        <i class="fa fa-check-square-o"></i> Save
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- // Basic form layout section end -->
+
+</div>
+
+
+</body>
+</html>
