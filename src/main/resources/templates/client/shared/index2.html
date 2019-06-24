@@ -1,0 +1,21 @@
+﻿<!DOCTYPE html>
+<html xmlns:layout="https://www.ultraq.net.nz/thymeleaf/layout"
+     xmlns:th="https://www.thymeleaf.org"
+      layout:decorate="~{client/shared/_layout}">
+<head>
+     <title>Title2</title>
+</head>
+<body >
+     <header class="header mb-5">
+         aaaaa
+     </header>
+<div layout:fragment="content" id="content">
+     <h3>Page 1</h3>
+
+     <div class="alert alert-info" style="display: none;"
+          id="js-content">
+     </div>
+     <a th:href="@{/page2}">Go to page 2</a>
+</div>
+</body>
+</html>

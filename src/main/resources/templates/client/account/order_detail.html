@@ -1,0 +1,143 @@
+﻿<!DOCTYPE html>
+<html xmlns:layout="https://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:th="https://www.thymeleaf.org"
+      layout:decorate="~{client/shared/_layout}">
+<body>
+<th:block layout:fragment="content">
+<div class="row">
+     <div class="col-lg-12">
+          <!-- breadcrumb-->
+          <nav aria-label="breadcrumb">
+               <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="#">Home</a></li>
+                    <li aria-current="page" class="breadcrumb-item"><a href="#">Danh sách đơn hàng</a></li>
+                    <li aria-current="page" class="breadcrumb-item active"
+                        th:text="${'Order #'+ #strings.toString(number)}">Number</li>
+               </ol>
+          </nav>
+     </div>
+     <div id="customer-order" class="col-lg-9">
+          <div class="box">
+               <div class="d-flex justify-content-between flex-column flex-lg-row">
+                    <div class="left">
+                         <h1>Đơn hàng # <span th:text="${#strings.toString(number)}"></span></h1>
+                         <p class="lead">Đơn hàng # <span th:text="${#strings.toString(number)}"></span> được đặt vào ngày
+                              <strong th:text="${#strings.toString(model[0].orderDetail.order.createdDate)}"></strong>
+                              và hiện <strong th:text="${model[0].orderDetail.order.statusOrder.name}"></strong>.</p>
+                    </div>
+                    <div class="right">
+                         <a th:href="@{/account/list-order(userId=${model[0].orderDetail.order.user.id})}" class="btn btn-outline-secondary">
+                              <i class="fa fa-chevron-left"></i>
+                              Quay lại
+                         </a>
+                    </div>
+               </div>
+               <div class="table-responsive mb-4">
+                    <table class="table">
+                         <thead>
+                              <tr>
+                                   <th>#</th>
+                                   <th style="text-align:center">Sản phẩm</th>
+                                   <th style="text-align:center">Hình</th>
+                                   <th style="text-align:right">Số lượng</th>
+                                   <th style="text-align:right">Đơn giá</th>
+                                   <th style="text-align:right">Khuyến mãi</th>
+                                   <th style="text-align:right">Thành tiền</th>
+                              </tr>
+                         </thead>
+                         <tbody>
+                              <th:block th:each="i : ${model}">
+                                   <tr>
+                                        <td th:text="${i.number}"></td>
+                                        <td><a th:href="@{/book/detail(id = ${i.orderDetail.book.id})}" th:text="${i.orderDetail.book.name}">
+                                             </a></td>
+                                        <td><a th:href="@{/book/detail(id = ${i.orderDetail.book.id})}">
+                                             <img th:src="@{'/client/images/' + ${i.bookDto.listImages[0].link}}"
+                                                  th:alt="${i.orderDetail.book.name}" style="width:75px;height:100px">
+                                        </a></td>
+                                        <td style="text-align:right"
+                                             th:text="${i.orderDetail.quantity}"></td>
+                                        <td style="text-align:right" th:text="${#numbers.formatDecimal(i.orderDetail.book.price, 0, 'COMMA', 0, 'POINT')+ ' VNĐ'}"></td>
+                                        <td style="text-align:right" th:text="${#strings.toString(((i.orderDetail.book.promotionPrice - i.orderDetail.book.price) * 100 / i.orderDetail.book.price))+ ' %'}"></td>
+                                        <td style="text-align:right" th:text="${#numbers.formatDecimal((i.orderDetail.book.promotionPrice * i.orderDetail.quantity), 0, 'COMMA', 0, 'POINT') + ' VNĐ'}"></td>
+                                   </tr>
+                              </th:block>
+                         </tbody>
+                         <tfoot>
+                              <tr>
+                                   <th colspan="6" class="text-right">Tổng đơn hàng</th>
+                                   <th style="text-align:right" th:text="${#numbers.formatDecimal(model[0].orderDetail.order.totalPrice-model[0].orderDetail.order.shippingType.cost, 0, 'COMMA', 0, 'POINT') + ' VNĐ'}"></th>
+                              </tr>
+                              <tr>
+                                   <th colspan="6" class="text-right">Phí vận chuyển</th>
+                                   <th style="text-align:right" th:text="${#numbers.formatDecimal(model[0].orderDetail.order.shippingType.cost, 0, 'COMMA', 0, 'POINT') + ' VNĐ'}"></th>
+                              </tr>
+                              <tr>
+                                   <th colspan="6" class="text-right">Tổng tiền</th>
+                                   <th style="text-align:right" th:text="${#numbers.formatDecimal(model[0].orderDetail.order.totalPrice, 0, 'COMMA', 0, 'POINT') + ' VNĐ'}"></th>
+                              </tr>
+                         </tfoot>
+                    </table>
+               </div>
+               <hr />
+               <!-- /.table-responsive-->
+               <div class="row addresses">
+                    <div class="col-lg-6">
+                         <h2>Thông tin tài khoản</h2>
+                         <p>
+                              <i class="fa fa-user" ></i> <span th:text="${model[0].orderDetail.order.user.name}"></span>
+                              <br><i class="fa fa-phone" ></i> <span th:text="${model[0].orderDetail.order.user.phone}"></span>
+                              <br><i class="fa fa-envelope" ></i> <span th:text="${model[0].orderDetail.order.user.email}"></span>
+                              <br><i class="fa fa-home" ></i> <span th:text="${model[0].orderDetail.order.user.address}"></span>
+                         </p>
+                    </div>
+                    <div class="col-lg-6">
+                         <h2>Thông tin người nhận</h2>
+                         <p>
+                              <i class="fa fa-user" ></i> <span th:text="${model[0].orderDetail.order.shipName}"></span>
+                              <br> <i class="fa fa-phone"></i> <span th:text="${model[0].orderDetail.order.shipMobile}"></span>
+                              <br> <i class="fa fa-envelope"></i> <span th:text="${model[0].orderDetail.order.shipEmail}"></span>
+                              <br> <i class="fa fa-home"></i> <span th:text="${model[0].orderDetail.order.shipAdress}"></span>
+                         </p>
+                    </div>
+               </div>
+               <div class="row">
+                    <div class="col-9">
+                    </div>
+                    <div class="col-3">
+                         <a class="btn btn-danger btn-sm btn-cancel-order text-white"
+                            style="font-size:16px" th:data-id="${model[0].orderDetail.order.id}" data-status="${model[0].orderDetail.order.statusOrder.name}">
+                              <i class="fa"> Hủy đơn hàng </i><i class="fa fa-times"></i></a>
+                    </div>
+               </div>
+          </div>
+     </div>
+     <div class="col-lg-3">
+          <!--
+          *** CUSTOMER MENU ***
+          _________________________________________________________
+          -->
+          <div class="card sidebar-menu">
+               <div class="card-header">
+                    <h3 class="h4 card-title">Danh mục</h3>
+               </div>
+               <div class="card-body">
+                    <ul class="nav nav-pills flex-column">
+                         <a th:href="@{/account/user-profile}" class="nav-link"><i class="fa fa-user"></i> Thông tin tài khoản</a>
+                         <a th:href="@{/account/list-order}" class="nav-link active"><i class="fa fa-list"></i> Danh sách đơn hàng</a>
+                         <a th:href="@{/account/logout}" class="nav-link"><i class="fa fa-sign-out"></i> Đăng xuất</a>
+                    </ul>
+               </div>
+          </div>
+          <!-- /.col-lg-3-->
+          <!-- *** CUSTOMER MENU END ***-->
+     </div>
+</div>
+<script th:src="@{/client/js/controller/deleteOrder.js}"></script>
+<script>
+     deleteOrder.init();
+</script>
+</th:block>
+</body>
+</html>
+

@@ -1,0 +1,141 @@
+﻿<!DOCTYPE html>
+<html xmlns:layout="https://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:th="https://www.thymeleaf.org"
+      layout:decorate="~{client/shared/_layout}">
+<body>
+<th:block layout:fragment="content">
+<div class="col-lg-12">
+     <!-- breadcrumb-->
+     <nav aria-label="breadcrumb">
+          <ol class="breadcrumb">
+               <li class="breadcrumb-item"><a th:href="@{/home/index}">Home</a></li>
+               <li class="breadcrumb-item"><a href="#" th:text="${cate.name}">Category's Name</a></li>
+               <li class="breadcrumb-item"><a th:href="@{book-by/filtered-by-bookCate(select_bookcate=${bookcate.id})}" th:text="${bookcate.name}">BookCategory's Name</a></li>
+               <li aria-current="page" class="breadcrumb-item active" th:text="${book.name}">Book's Name</li>
+          </ol>
+     </nav>
+</div>
+<div class="container">
+     <div id="productMain" class="row">
+          <div class="col-md-4">
+               <div data-slider-id="1" class="owl-carousel shop-detail-carousel">
+                    <div class="item"> <img
+                       th:src="@{'/client/images/' + ${book.listImages[0].link}}"
+                       th:alt="${'Image ' + book.name +' 1'}"
+                       class="img-detail"></div>
+                    <div class="item"> <img
+                            th:src="@{'/client/images/' + ${#lists.size(book.listImages) < 2 ? book.listImages[0].link : book.listImages[1].link}}"
+                            th:alt="${'Image ' + book.name +' 2'}"
+                            class="img-detail"></div>
+                    <div class="item"> <img
+                            th:src="@{'/client/images/' + ${#lists.size(book.listImages) < 3 ? book.listImages[0].link : book.listImages[2].link}}"
+                            th:alt="${'Image ' + book.name +' 3'}"
+                            class="img-detail"></div>
+               </div>
+               <!-- Sale -->
+               <th:block th:if="${book.price != book.promotionPrice}">
+                    <div class="ribbon sale">
+                         <div class="theribbon" style="font-size: 10px!important;">SALE</div>
+                         <div class="ribbon-background"></div>
+                    </div>
+               </th:block>
+               <!-- New -->
+               <th:block th:if="${book.isNew}">
+                    <div class="ribbon new">
+                         <div class="theribbon" style="font-size: 10px!important;">NEW</div>
+                         <div class="ribbon-background"></div>
+                    </div>
+               </th:block>
+               <!-- /.ribbon-->
+          </div>
+          <div class="col-md-8">
+               <div class="box">
+                    <h3 class="text-center " th:text="${book.name}">Book's Name</h3>
+                    <hr />
+                    <div class="container-fluid">
+                         <div class="row">
+                              <div class="col-lg-5">
+                                   <b class="text-primary">Tác giả</b>: <span th:text="${book.author}">Author </span>
+                              </div>
+                              <div class="col-lg-7">
+                                   <b class="text-primary">Thể loại</b>: <span th:text="${book.bookCategory}">BookCategory </span>
+                              </div>
+                         </div>
+                    </div>
+                    <hr />
+                    <th:block th:if ="${book.price != book.promotionPrice}">
+                         <span class="old-price" th:text="${'VNĐ' + #numbers.formatDecimal(book.price, 0, 'COMMA', 2, 'POINT')}"></span>
+                         <br />
+                         <b class="sale-price" th:text="${'VNĐ' + #numbers.formatDecimal(book.promotionPrice, 0, 'COMMA', 2, 'POINT')}"></b>
+                    </th:block>
+                    <th:block th:unless ="${book.price != book.promotionPrice}">
+                         <p class="price" th:text="${'VNĐ' + #numbers.formatDecimal(book.price, 0, 'COMMA', 2, 'POINT')}"></p>
+                    </th:block>
+                    <p class="goToDescription"><a href="#details" class="scroll-to">Cuộn xuống để xem mô tả &amp; chi tiết</a></p>
+                    <hr />
+                    <p class="text-right buttons">
+                         <a href="@{/cart/add-cart(itemId = ${book.Id})}" th:data-itemid="${book.Id}" class="btn bg-transparent btn-add-cart p-0 m-0"><i class="fa fa-shopping-cart"></i> Add to cart</a>
+<!--                         <a href="basket.html" class="btn btn-outline-primary"><i class="fa fa-heart text-danger"></i> Add to wishlist</a>-->
+                    </p>
+               </div>
+               <div data-slider-id="1" class="owl-thumbs">
+                    <button class="owl-thumb-item"><img
+                            th:src="@{'/client/images/' + ${book.listImages[0].link}}"
+                            th:alt="${'Image ' + book.name +' 1'}"
+                            class="img-fluid"></button>
+                    <button class="owl-thumb-item"><img
+                            th:src="@{'/client/images/' + ${#lists.size(book.listImages) < 2 ? book.listImages[0].link : book.listImages[1].link}}"
+                            th:alt="${'Image ' + book.name +' 2'}"
+                            class="img-fluid"></button>
+                    <button class="owl-thumb-item"><img
+                            th:src="@{'/client/images/' + ${#lists.size(book.listImages) < 3 ? book.listImages[0].link : book.listImages[2].link}}"
+                            th:alt="${'Image ' + book.name +' 3'}"
+                            class="img-fluid"></button>
+          </div>
+          </div>
+     </div>
+     <hr />
+     <div id="details" class="box">
+          <p></p>
+          <h4>Mô tả</h4>
+          <p style="text-align:justify;" th:utext="${book.description == null ? '' : book.description}">
+          </p>
+          <hr/>
+          <h4>Thông tin chi tiết</h4>
+          <div class="container">
+               <div class="col-5">
+                    <table class="table table-striped">
+                         <tbody>
+                              <tr>
+                                   <td class="text-success">Loại bìa</td>
+                                   <td th:text="${': ' + book.form}"></td>
+                              </tr>
+                              <tr>
+                                   <td class="text-success">Trọng lượng</td>
+                                   <td th:text="${': ' + #strings.toString(book.weight) +' gam'}">: cân nặng</td>
+                              </tr>
+                              <tr>
+                                   <td class="text-success">Số trang</td>
+                                   <td th:text="${': ' + #strings.toString(book.numberPage) + ' trang'}" >: số trang</td>
+                              </tr>
+                              <tr>
+                                   <td class="text-success">Nhà xuất bản</td>
+                                   <td th:text="${': ' + book.publisher}">: </td>
+                              </tr>
+                         </tbody>
+                    </table>
+               </div>
+          </div>
+          <hr>
+     </div>
+     <hr />
+     <div th:replace="client/book/list_book :: list_book (listBook=${listSameAuthor},namePath='Sách cùng tác giả')"></div>
+     <div th:replace="client/book/list_book :: list_book (listBook=${listSameCategory},namePath='Sách cùng nhà xuất bản')"></div>
+</div>
+</th:block>
+<!-- /.col-md-9-->
+<script layout:fragment="jsFooter">
+addcartitem.init();
+</script>
+</body>
+</html>

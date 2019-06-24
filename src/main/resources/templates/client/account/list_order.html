@@ -1,0 +1,96 @@
+﻿<!DOCTYPE html>
+<html xmlns:layout="https://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:th="https://www.thymeleaf.org"
+      layout:decorate="~{client/shared/_layout}">
+<body>
+<th:block layout:fragment="content">
+<div class="row" id="list_order">
+     <div class="col-lg-12">
+                         <!-- breadcrumb-->
+                         <nav aria-label="breadcrumb">
+                              <ol class="breadcrumb">
+                                   <li class="breadcrumb-item"><a href="#">Home</a></li>
+                                   <li aria-current="page" class="breadcrumb-item active">Danh sách đơn hàng</li>
+                              </ol>
+                         </nav>
+                   </div>
+               <div id="customer-orders" class="col-lg-9">
+                    <div class="box">
+                         <h1>Đơn hàng của bạn</h1>
+                         <div class="table-responsive">
+                              <table class="table table-hover">
+                                   <thead>
+                              <tr>
+                                   <th>Đơn hàng</th>
+                                   <th>Ngày đặt</th>
+                                   <th style="text-align:right">Tổng tiền</th>
+                                   <th>Tình trạng</th>
+                                   <th style="text-align:center">Xem chi tiết</th>
+                                   <th style="text-align:center">Hủy đơn hàng</th>
+                              </tr>
+                         </thead>
+                         <tbody>
+                              <th:block th:each="o : ${order}" >
+                                   <th:block th:if="${o.order.statusOrder.status != 5}">
+                                        <tr>
+                                             <th th:text="${'# ' + o.number}"></th>
+                                             <td th:text="${#dates.format(o.order.createdDate, 'dd-MM-yyyy')}"></td>
+                                             <td style="text-align:right"
+                                                 th:text="${#numbers.formatDecimal(o.order.totalPrice, 0, 'COMMA', 0, 'POINT') + ' VNĐ'}"></td>
+                                             <td th:switch="${o.order.statusOrder.status}">
+                                                  <span th:case="-1" class="badge badge-secondary" style="font-size:16px">Đang hủy</span>
+                                                  <span th:case="0" class="badge badge-info" style="font-size:16px">Đang lấy hàng</span>
+                                                  <span th:case="1" class="badge badge-primary" style="font-size:16px">Đang giao hàng</span>
+                                                  <span th:case="2" class="badge badge-warning" style="font-size:16px">Đang thanh toán</span>
+                                                  <span th:case="3" class="badge badge-success" style="font-size:16px">Đã nhận hàng</span>
+                                                  <span th:case="4" class="badge badge-danger" style="font-size:16px">Đã hủy</span>
+                                                  <span th:case="5" class="badge badge-dark" style="font-size:16px">Không khả dụng</span>
+                                             </td>
+                                             <td style="text-align:center">
+                                                  <a th:href="@{/account/order-detail(orderId = ${o.order.Id},number=${o.number})}"
+                                                     class="btn btn-outline-primary btn-sm"
+                                                     th:data-id="${o.order.Id}" style="font-size:16px"><i class="fa fa-eye"></i>
+                                                  </a>
+                                             </td>
+                                             <td style="text-align:center">
+                                                  <a class="btn btn-outline-danger btn-sm btn-cancel-order"
+                                                     style="font-size:16px" th:data-id="${o.order.id}" th:data-status="${o.order.statusOrder.status}">
+                                                       <i class="fa fa-times"></i>
+                                                  </a>
+                                             </td>
+                                        </tr>
+                                   </th:block>
+                              </th:block>
+                         </tbody>
+                    </table>
+               </div>
+          </div>
+     </div>
+     <div class="col-lg-3">
+          <!--
+          *** CUSTOMER MENU ***
+          _________________________________________________________
+          -->
+          <div class="card sidebar-menu">
+               <div class="card-header">
+                    <h3 class="h4 card-title">Danh mục</h3>
+               </div>
+               <div class="card-body">
+                    <ul class="nav nav-pills flex-column">
+                         <a th:href="@{/account/user-profile}" class="nav-link"><i class="fa fa-user"></i> Thông tin tài khoản</a>
+                         <a th:href="@{/account/list-order}" class="nav-link active"><i class="fa fa-list"></i> Danh sách đơn hàng</a>
+                         <a th:href="@{/account/logout}" class="nav-link"><i class="fa fa-sign-out"></i> Đăng xuất</a>
+                    </ul>
+               </div>
+          </div>
+          <!-- /.col-lg-3-->
+          <!-- *** CUSTOMER MENU END ***-->
+     </div>
+</div>
+<script th:src="@{client/js/controller/deleteOrder.js}"></script>
+<script>
+     deleteOrder.init();
+</script>
+</th:block>
+</body>
+</html>

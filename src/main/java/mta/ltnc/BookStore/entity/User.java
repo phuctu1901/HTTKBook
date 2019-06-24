@@ -41,7 +41,7 @@ public class User {
     private String address;
     @Basic
     @Column(name = "Status", nullable = false)
-    private boolean status;
+    private Boolean status;
     @Basic
     @Column(name = "CreatedDate", nullable = false)
     private Timestamp createdDate;

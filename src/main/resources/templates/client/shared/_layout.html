@@ -1,0 +1,59 @@
+﻿<!DOCTYPE html>
+<html xmlns:layout="https://www.ultraq.net.nz/thymeleaf/layout"
+     xmlns:th="https://www.thymeleaf.org">
+<head th:replace="client/shared/head :: head"></head>
+<body >
+     <!-- navbar-->
+     <header class="header mb-5">
+          <!--
+     *** TOPBAR ***
+     _________________________________________________________
+     -->
+          <div id="top">
+               <div class="container">
+                    <div class="row">
+                         <div class="col-lg-6 offer mb-3 mb-lg-0" id="hello" th:text="${'Xin chào ' + (session.userName == null ? '' : session.userName)}"></div>
+                         <div class="col-lg-6 text-center text-lg-right">
+                              <ul th:if="${session.userId == null}" class="menu list-inline mb-0">
+                                   <li class="list-inline-item" id="login"><a href="#" data-modal="login-modal" class="show-modal">Đăng nhập</a></li>
+                                   <li class="list-inline-item" id="logout" style="display:none"><a th:href="@{/account/logout}">Đăng xuất</a></li>
+                                   <li class="list-inline-item" id="register"><a th:href="@{/account/register}">Đăng ký tài khoản</a></li>
+                                   <li class="list-inline-item" id="userprofile" style="display:none"><a th:href="@{/account/user-profile}">Thông tin tài khoản</a></li>
+                              </ul>
+                              <ul th:unless="${session.userId == null}" class="menu list-inline mb-0">
+                                   <li class="list-inline-item" id="logout"><a th:href="@{/account/logout}">Đăng xuất</a></li>
+                                   <li class="list-inline-item" id="userprofile"><a th:href="@{/account/user-profile}">Thông tin tài khoản</a></li>
+                              </ul>
+                         </div>
+                    </div>
+               </div>
+               <div th:replace="client/shared/login_modal :: login_modal"></div>
+               <!-- *** TOP BAR END ***-->
+          </div>
+          <!-- Link co icon-->
+          <div id="top_navbar" th:replace="client/shared/top_navbar :: top_navbar"> </div>
+          <div id="search" class="collapse">
+               <div class="container">
+                    <form role="search" class="ml-auto">
+                         <div class="input-group">
+                              <input autocomplete=off type="text" placeholder="Tìm kiếm" class="form-control" id="search_box">
+                              <div class="input-group-append">
+                                   <button type="submit" class="btn btn-primary" id="search_btn"><i class="fa fa-search"></i></button>
+                              </div>
+                         </div>
+                         <div class="autocomplete" id="listAutoComplete"></div>
+                    </form>
+               </div>
+          </div>
+          <script th:src="@{/client/js/controller/autocompete.js}"></script>
+     </header>
+     <div class="container-fluid">
+          <div layout:fragment="content"> </div>
+          <hr />
+     </div>
+
+     <div th:replace="client/shared/footer :: footer"> </div>
+     <script th:src="@{/client/js/controller/userController.js}"></script>
+     <div layout:fragment="jsFooter"></div>
+</body>
+</html>

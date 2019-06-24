@@ -1,0 +1,81 @@
+﻿<!DOCTYPE html>
+<html xmlns:layout="https://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:th="https://www.thymeleaf.org">
+<body>
+<div th:fragment="card (book)"
+     class="box-product bookCate-@book.CategoryID col-lg-3 col-md-6 mt-2"
+     th:with="discount=${(book.price - book.promotionPrice) * 100 / book.price}">
+     <div class="product" style="height:490px">
+          <div class="box p-2 bg-light" style="height:490px">
+               <!-- Sale -->
+               <th:block th:if="${book.price != book.promotionPrice}">
+                    <div class="ribbon sale">
+                         <div class="theribbon" th:text="${'- ' + #strings.toString(discount)+'%'}" style="font-size: 10px!important;"></div>
+                         <div class="ribbon-background"></div>
+                    </div>
+               </th:block>
+               <!-- New -->
+               <th:block th:if="${book.isNew}">
+                    <div class="ribbon new">
+                         <div class="theribbon" style="font-size: 10px!important;">NEW</div>
+                         <div class="ribbon-background"></div>
+                    </div>
+               </th:block>
+               <a th:href="@{/book/detail(id=${book.id})}">
+                    <img th:src="@{'/client/images/' + ${book.listImages[0].link}}"
+                         th:alt="${'Image ' + book.name}"
+                         class="img-fluid border rounded"
+                         style="width:240px !important;height:300px"></a>
+               <hr class="m-1"/>
+               <div class="text m-1 p-0">
+                    <div style="height:70px">
+                         <p style="text-align:center;font-size:16px!important;height:37px;white-space: nowrap;overflow: hidden;text-overflow: ellipsis;" class="pb-0 mb-0" title="${book.name}" th:text="${book.name}"><a>Name of book</a></p>
+                         <p style="text-align:center;font-size:13px!important" class="pb-0 mb-0">
+                              <a th:href="@{/book-by/filtered-by-author(select_author=${book.authorId})}">
+                                   <b th:text="${book.author}">Author</b>
+                              </a>
+                         </p>
+                         <p style="text-align:center;font-size:13px!important" class="pb-0 mb-0">
+                              <a th:href="@{/book-by/filtered-by-publisher(select_publisher=${book.publisherId})}"
+                                 class="text-black-50">
+                                   NXB: <b th:text="${book.publisher}">Publisher</b>
+                              </a>
+                         </p>
+                    </div>
+                    <hr />
+                    <div class="container-fluid" >
+                         <th:block th:if ="${book.price != book.promotionPrice}">
+                              <div class="row">
+                                   <div class="col-8 old-price"
+                                        th:text="${'VNĐ ' + #numbers.formatDecimal(book.price, 0, 'COMMA', 0, 'POINT')}"></div>
+                                   <div class="col">
+                                        <a class="btn bg-transparent btn-add-cart p-0 m-0"
+                                           th:href="@{/cart/add-cart(itemId = ${book.id})}"
+                                           th:data-itemid="${book.id}">
+                                             <i class="fa fa-shopping-cart fa-lg text-info"></i>
+                                        </a>
+                                   </div>
+                              </div>
+                              <div class="row">
+                                   <div class="col-8 sale-price"
+                                        th:text="${'VNĐ ' + #numbers.formatDecimal(book.promotionPrice, 0, 'COMMA', 0, 'POINT')}"></div>
+                              </div>
+                              <div class="row text-secondary" style="font-size:12px">
+                                   <div class="col-8 text-secondary"
+                                        th:text="${'Lượt xem: ' + #strings.toString(book.viewCount)}"></div>
+                                   <div class="col" th:text="${'Kho: ' + #strings.toString(book.inventory)}"></div>
+                              </div>
+                         </th:block>
+                         <th:block th:unless ="${book.price != book.promotionPrice}">
+                              <div class="row">
+                                   <div class="col price"
+                                        th:text="${'VNĐ ' + #numbers.formatDecimal(book.promotionPrice, 0, 'COMMA', 0, 'POINT')}"> 10.00</div>
+                              </div>
+                         </th:block>
+                    </div>
+               </div>
+          </div>
+     </div>
+</div>
+</body>
+</html>
