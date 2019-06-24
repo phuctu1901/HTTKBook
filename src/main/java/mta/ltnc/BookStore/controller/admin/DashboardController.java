@@ -13,7 +13,7 @@ public class DashboardController {
     @Autowired
     private CategoryService categoryService;
 
-    @RequestMapping(value = "/admin/dashboard", method = RequestMethod.GET)
+    @RequestMapping(value = {"/admin/dashboard","/admin"}, method = RequestMethod.GET)
     public ModelAndView dashboard() {
         ModelAndView modelAndView = new ModelAndView("admin/dashboard/index");
         modelAndView.addObject("categories", categoryService.findAll());

@@ -6,6 +6,9 @@
 <head>
     <meta charset="UTF-8">
     <title>HTTK Book - Danh mục sách</title>
+    <th:block layout:fragment="styles">
+
+    </th:block>
 </head>
 <body>
 <div layout:fragment="main-content">
@@ -15,13 +18,26 @@
             <div class="col-sm-12">
                 <div class="card">
                     <div class="card-header">
-                        <h4 class="card-title" style="display:inline-block;">Tất cả danh mục lớn</h4>
+                        <div class="card-title" style="display:inline-block;">
+                            <select id="size"
+                                    class="form-control" >
+                                <option value="5" selected="">5</option>
+                                </option>
+                                <option value=10>10</option>
+                                <option value=15>15</option>
+                                <option value=20>20</option>
+                                <option value=25>25</option>
+                                <option value=30>50</option>
+                                <option value=35>100</option>
+
+                            </select>
+                        </div>
                         <a type="button" name="add" id="add" class="btn btn-success pull-right"
-                           style="display: inline-block" href="/admin/tourcategory/add">Thêm danh mục lớn
+                           style="display: inline-block" href="/admin/bookcategory/add">Thêm danh mục chi tiết
                         </a>
                     </div>
-                    <div class="card-body">
-                        <div class="card-block">
+                    <div class="card-body" id="data_table">
+                        <div class="card-block" th:fragment="data_table">
                             <table class="table table-responsive-md-md text-center">
                                 <thead>
                                 <tr>
@@ -33,14 +49,15 @@
                                 </tr>
                                 </thead>
                                 <tbody>
-                                <tr th:each="book_category : ${page.content}">
+                                <tr th:each="book_category : ${page.content}" style="text-align: left!important;">
 
                                     <td th:text="${book_category.name}"></td>
-                                    <td th:text="${book_category.category.name}"></td>
+                                    <td th:text="${book_category.category != null} ? ${book_category.category.name} : 'Không có danh mục cha'"></td>
                                     <!--                                        <td th:text="${book_category.status}">-->
                                     <td>
                                         <div class="custom-control custom-checkbox" style="vertical-align: middle;">
-                                            <input onclick="return false;" type="checkbox" class="custom-control-input" id="item1"  th:checked="${book_category.status}">
+                                            <input onclick="return false;" type="checkbox" class="custom-control-input"
+                                                   id="item1" th:checked="${book_category.status}">
                                             <label class="custom-control-label" for="item1"></label>
                                         </div>
                                     </td>
@@ -73,7 +90,7 @@
                                     </li>
                                     <li class="page-item" th:classappend="${i eq page.number + 1} ? 'active'"
                                         th:each="i : ${pageNumbers}">
-                                        <a class="page-link" th:href="@{?page={id}(id=${i})}" th:text="${i}"
+                                        <a class="page-link" th:onclick="'changePage(\'' + ${i} + '\');'" th:text="${i}"
                                            th:title="${'Page '+ i}"
                                            rel="tooltip"></a>
                                     </li>
@@ -94,7 +111,74 @@
         </div>
     </section>
 </div>
+<th:block layout:fragment="scripts">
 
+
+    <script>
+        var size_url =parseInt(GetURLParameter("size"));
+        console.log("Size: " + size_url);
+        if (isNaN(size_url)){
+            size_url=5;
+        }
+
+        var page_url=parseInt(GetURLParameter("page"));
+        console.log("Page: " + page_url);
+
+        if (isNaN(page_url)){
+            page_url=1;
+        }
+
+        console.log("Size: " + size_url);
+        console.log("Page: " + page_url);
+        refreshDataTable(page_url,size_url);
+        $("#size").change(function(){
+            var size_val =$("#size").val();
+            // var page_val=parseInt(GetURLParameter("page"));
+            // if (isNaN(page_url)){
+            //     page_val=1;
+            // }
+            refreshDataTable(1,size_val);
+        });
+
+        function changePage(page) {
+            var size_val =$("#size").val();
+            refreshDataTable(page,size_val);
+        }
+
+        function GetURLParameter(sParam) {
+            var sPageURL = window.location.search.substring(1);
+            var sURLVariables = sPageURL.split('&');
+            for (var i = 0; i < sURLVariables.length; i++){
+                var sParameterName = sURLVariables[i].split('=');
+                if (sParameterName[0] == sParam)
+                {
+                    return sParameterName[1];
+                }
+            }
+        }
+        function refreshDataTable(page, size) {
+            toastr.info("Vui lòng đợi quá trình cập nhật kết thúc", "Đang cập nhật dữ liệu")
+            $.ajax({
+                type: 'post',
+                url: '/admin/bookcategory',
+                data:{
+                    page: page,
+                    size: size
+                },
+                success: function (data) {
+                    toastr.success("Cập nhật dữ liệu thành công", "Kết thúc")
+                    $('#data_table').html(data);
+                },
+                error:function (error) {
+                    toastr.error("Đã xuất hiện lỗi trong quá trình cập nhật", "Thất bại")
+                }
+
+            })
+
+        }
+
+    </script>
+</th:block>
 
 </body>
 </html>

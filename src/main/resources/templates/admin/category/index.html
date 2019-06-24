@@ -20,8 +20,8 @@
                            style="display: inline-block" href="/admin/category/add">Thêm danh mục
                         </a>
                     </div>
-                    <div class="card-body">
-                        <div class="card-block">
+                    <div class="card-body" id="data_table">
+                        <div class="card-block" th:fragment="data_table">
                             <table class="table table-responsive-md-md text-center">
                                 <thead>
                                 <tr>
@@ -87,7 +87,26 @@
         </div>
     </section>
 </div>
+<th:block layout:fragment="scripts">
+    <script>
+        function refreshDataTable(page, size) {
+            $.ajax({
+                type: 'post',
+                url: '/admin/category',
+                data:{
+                    page: page,
+                    size: size
+                },
+                success: function (data) {
+                    $('.data_table').html(data);
+                },
 
+            })
+
+        }
+
+    </script>
+</th:block>
 
 </body>
 </html>

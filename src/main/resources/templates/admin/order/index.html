@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html xmlns:layout="https://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="/admin/layout/index"
+      xmlns:th="https://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <title>HTTK Book - Đơn hàng</title>
+    <th:block layout:fragment="styles">
+
+    </th:block>
+</head>
+<body>
+<div layout:fragment="main-content">
+
+    <section id="extended">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-title" style="display:inline-block;">
+                            <select id="size"
+                                    class="form-control">
+                                <option value="5" selected="">5</option>
+                                </option>
+                                <option value=10>10</option>
+                                <option value=15>15</option>
+                                <option value=20>20</option>
+                                <option value=25>25</option>
+                                <option value=30>50</option>
+                                <option value=35>100</option>
+
+                            </select>
+                        </div>
+                        <a type="button" name="add" id="add" class="btn btn-success pull-right"
+                           style="display: inline-block" href="/admin/bookcategory/add">Thêm danh mục chi tiết
+                        </a>
+                    </div>
+                    <!--                    th:fragment="data_table"-->
+                    <div class="card-body" id="data_table">
+                        <div class="card-block" th:fragment="data_table">
+                            <table class="table table-responsive-sm text-center">
+                                <thead>
+                                <tr>
+                                    <th>Mã đơn</th>
+                                    <th>Tên khách hàng</th>
+                                    <th>Giá trị</th>
+                                    <th>Trạng thái</th>
+                                    <th>Chi tiết</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr th:each="order : ${page.content}" style="text-align: left!important;">
+
+                                    <td th:text="${order.id}"></td>
+                                    <td th:text="${order.user.name}"></td>
+                                    <td th:text="${order.statusOrder.name}"></td>
+                                    <td th:text="${order.totalPrice}"></td>
+                                    <td>
+                                        <a class="info p-0" data-original-title="" title=""
+                                           th:href="@{/admin/bookcategory/detail?id={id}(id=${order.id})}">
+                                            <i class="ft-info font-medium-3 mr-2"></i>
+                                        </a>
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <nav aria-label="Page navigation mb-3">
+                            <ul class="pagination justify-content-center" th:if="${page.totalPages > 0}">
+                                <li class="page-item" th:classappend="${page.number eq 0} ? 'disabled'">
+                                    <a class="page-link"
+                                       th:href="@{?page={id}(id=${page.number lt 2 ? 1 : page.number})}"
+                                       aria-label="Previous">
+                                        <span aria-hidden="true">« Prev</span>
+                                        <span class="sr-only">Previous</span>
+                                    </a>
+                                </li>
+                                <li class="page-item" th:classappend="${i eq page.number + 1} ? 'active'"
+                                    th:each="i : ${pageNumbers}">
+                                    <a class="page-link" th:onclick="'changePage(\'' + ${i} + '\');'" th:text="${i}"
+                                       th:title="${'Page '+ i}"
+                                       rel="tooltip"></a>
+                                </li>
+                                <li class="page-item"
+                                    th:classappend="${page.number + 1 eq page.totalPages} ? 'disabled'">
+                                    <a class="page-link" th:href="@{?page={id}(id=${page.number + 2})}"
+                                       aria-label="Next">
+                                        <span aria-hidden="true">Next »</span>
+                                        <span class="sr-only">Next</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </div>
+</div>
+</section>
+</div>
+<th:block layout:fragment="scripts">
+
+
+    <script>
+        var size_url = parseInt(GetURLParameter("size"));
+        console.log("Size: " + size_url);
+        if (isNaN(size_url)) {
+            size_url = 5;
+        }
+
+        var page_url = parseInt(GetURLParameter("page"));
+        console.log("Page: " + page_url);
+
+        if (isNaN(page_url)) {
+            page_url = 1;
+        }
+
+        console.log("Size: " + size_url);
+        console.log("Page: " + page_url);
+        refreshDataTable(page_url, size_url);
+        $("#size").change(function () {
+            var size_val = $("#size").val();
+            // var page_val=parseInt(GetURLParameter("page"));
+            // if (isNaN(page_url)){
+            //     page_val=1;
+            // }
+            refreshDataTable(1, size_val);
+        });
+
+        function changePage(page) {
+            var size_val = $("#size").val();
+            refreshDataTable(page, size_val);
+        }
+
+        function GetURLParameter(sParam) {
+            var sPageURL = window.location.search.substring(1);
+            var sURLVariables = sPageURL.split('&');
+            for (var i = 0; i < sURLVariables.length; i++) {
+                var sParameterName = sURLVariables[i].split('=');
+                if (sParameterName[0] == sParam) {
+                    return sParameterName[1];
+                }
+            }
+        }
+
+        function refreshDataTable(page, size) {
+            toastr.info("Vui lòng đợi quá trình cập nhật kết thúc", "Đang cập nhật dữ liệu")
+            $.ajax({
+                type: 'post',
+                url: '/admin/order',
+                data: {
+                    page: page,
+                    size: size
+                },
+                success: function (data) {
+                    toastr.success("Cập nhật dữ liệu thành công", "Kết thúc")
+                    $('#data_table').html(data);
+                },
+                error: function (error) {
+                    toastr.error("Đã xuất hiện lỗi trong quá trình cập nhật", "Thất bại")
+                }
+
+            })
+
+        }
+
+    </script>
+</th:block>
+
+</body>
+</html>

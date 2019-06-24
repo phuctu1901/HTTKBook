@@ -60,11 +60,11 @@ public class UserService {
         if (isAccountInRole(AuthoritiesConstants.ADMIN, user)) {
             result.setRole(AuthoritiesConstants.ADMIN);
         } else {
-            if (isAccountInRole(AuthoritiesConstants.EMPLOYEE, user)){
-                result.setRole(AuthoritiesConstants.EMPLOYEE);
+            if (isAccountInRole(AuthoritiesConstants.SALE, user)){
+                result.setRole(AuthoritiesConstants.SALE);
             } else {
-                if (isAccountInRole(AuthoritiesConstants.CHECKER, user))
-                    result.setRole(AuthoritiesConstants.CHECKER);
+                if (isAccountInRole(AuthoritiesConstants.WAREHOUSE, user))
+                    result.setRole(AuthoritiesConstants.WAREHOUSE);
                 else result.setRole(AuthoritiesConstants.CUSTOMER);
             }
         }
@@ -214,11 +214,11 @@ public class UserService {
             if (isAccountInRole(AuthoritiesConstants.ADMIN, user)) {
                 dto.setRole(AuthoritiesConstants.ADMIN);
             } else {
-                if (isAccountInRole(AuthoritiesConstants.EMPLOYEE, user)) {
-                    dto.setRole(AuthoritiesConstants.EMPLOYEE);
+                if (isAccountInRole(AuthoritiesConstants.SALE, user)) {
+                    dto.setRole(AuthoritiesConstants.SALE);
                 } else {
-                    if (isAccountInRole(AuthoritiesConstants.CHECKER, user)) {
-                        dto.setRole(AuthoritiesConstants.CHECKER);
+                    if (isAccountInRole(AuthoritiesConstants.WAREHOUSE, user)) {
+                        dto.setRole(AuthoritiesConstants.WAREHOUSE);
                     } else {
                         dto.setRole(AuthoritiesConstants.CUSTOMER);
                     }
