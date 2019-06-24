@@ -41,4 +41,23 @@ public class BookCategoryService {
 
         return bookCategoryPage;
     }
+
+    public Page<BookCategory> search(Pageable pageable) {
+        int pageSize = pageable.getPageSize();
+        int currentPage = pageable.getPageNumber();
+        int startItem = currentPage * pageSize;
+        List<BookCategory> list;
+        List<BookCategory> bookCategories = bookCategoryRepository.findAll();
+        if (bookCategories.size() < startItem) {
+            list = Collections.emptyList();
+        } else {
+            int toIndex = Math.min(startItem + pageSize, bookCategories.size());
+            list = bookCategories.subList(startItem, toIndex);
+        }
+
+        Page<BookCategory> bookCategoryPage
+                = new PageImpl<BookCategory>(list, PageRequest.of(currentPage, pageSize), bookCategories.size());
+
+        return bookCategoryPage;
+    }
 }

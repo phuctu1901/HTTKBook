@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html xmlns:layout="https://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="/admin/layout/index"
+      xmlns:th="https://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <title>Thêm sách</title>
+</head>
+<body>
+<div layout:fragment="main-content">
+
+    <!-- Basic form layout section start -->
+    <section id="horizontal-form-layouts">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h4 class="card-title" id="horz-layout-basic">Thêm sách</h4>
+                    </div>
+                    <div class="card-body">
+                        <div class="px-3">
+
+                            <form class="form form-horizontal"
+                                  action="#" th:action="@{/admin/book/addRequest}"
+                                  th:object="${addBook}"
+                                  method="post">
+                                <div class="form-body">
+                                    <h4 class="form-section"><i class="ft-bookmark"></i> Thông tin sách
+                                    </h4>
+                                    <div class="form-group row">
+                                        <label class="col-md-3 label-control">Tên sách: </label>
+                                        <div class="col-md-9">
+                                            <input th:field="*{name}" class="form-control"
+                                                   type="text"
+                                            >
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group row">
+                                        <label class="col-md-3 label-control">Tác giả: </label>
+                                        <div class="col-md-9">
+                                            <select id="parent_id" name="parent_id"
+                                                    class="form-control" th:field="*{author}">
+
+                                                <option th:each="author : ${authors}" th:value="${author.id}"
+                                                        th:text="${author.name}">
+                                                </option>
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group row">
+                                        <label class="col-md-3 label-control">Thể loại: </label>
+                                        <div class="col-md-9">
+                                            <select id="bookCategory" name="parent_id"
+                                                    class="form-control" th:field="*{bookCategory}">
+                                                <option value="0" selected="" disabled="">Không
+                                                </option>
+                                                <option th:each="bookcategory : ${bookcategories}"
+                                                        th:value="${bookcategory.id}"
+                                                        th:text="${bookcategory.name}">
+                                                </option>
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group row">
+                                        <label class="col-md-3 label-control">Nhà xuất bản: </label>
+                                        <div class="col-md-9">
+                                            <select id="publisher"
+                                                    class="form-control" th:field="*{publisher}">
+                                                <option value="0" selected="" disabled="">Không
+                                                </option>
+                                                <option th:each="publisher : ${publishers}" th:value="${publisher.id}"
+                                                        th:text="${publisher.name}">
+                                                </option>
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group row">
+                                        <label class="col-md-3 label-control">Thời gian xuất bản: </label>
+                                        <div class="col-md-9">
+                                            <input type='text' class="form-control pickadate-selectors"
+                                                   placeholder="Chọn thời gian xuất bản" th:field="*{publishDate}"/>
+                                            <div class="input-group-append">
+                    <span class="input-group-text">
+                      <span class="fa fa-calendar-o"></span>
+                    </span>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <h4 class="form-section"><i class="ft-bookmark"></i> Hình thức
+                                    </h4>
+                                    <div class="form-group row">
+                                        <label class="col-md-3 label-control">Số trang: </label>
+                                        <div class="col-md-3">
+                                            <input th:field="*{numberPage}" class="form-control"
+                                                   type="number"
+                                            >
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label class="col-md-3 label-control">Khối lượng: </label>
+                                        <div class="col-md-3">
+                                            <input th:field="*{weight}" class="form-control"
+                                                   type="number"
+                                            >
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label class="col-md-3 label-control">Hình thức: </label>
+                                        <div class="col-md-3">
+                                            <select id="form"
+                                                    class="form-control" th:field="*{form}">
+                                                <option value="0" selected="" disabled="">Chọn hình thức sách
+                                                </option>
+                                                <option value="Bìa cứng">Bìa cứng</option>
+                                                <option value="Bìa mềm">Bìa mềm</option>
+                                            </select>
+                                        </div>
+                                    </div>
+
+
+                                    <div class="form-group row">
+                                        <label class="col-md-3 label-control">Trạng thái: </label>
+                                        <div class="col-md-3">
+
+                                            <select id="isActive" name="isActive"
+                                                    class="form-control" th:field="*{status}">
+                                                <option value="0" selected="" disabled="">Chọn trạng thái cho danh
+                                                    mục
+                                                </option>
+                                                <option value=0>Không kích hoạt</option>
+                                                <option value=1>Kích hoạt</option>
+                                            </select>
+                                        </div>
+                                    </div>
+
+
+                                </div>
+
+
+                                <div class="form-actions">
+                                    <button type="button" class="btn btn-raised btn-warning mr-1">
+                                        <i class="ft-x"></i> Reset
+                                    </button>
+                                    <button type="submit" class="btn btn-raised btn-primary">
+                                        <i class="fa fa-check-square-o"></i> Save
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- // Basic form layout section end -->
+
+</div>
+
+
+</body>
+</html>

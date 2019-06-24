@@ -66,7 +66,7 @@ public class CategoryController {
 //        ModelAndView modelAndView = new ModelAndView("admin/category/index");
 //        return "redirect:/admin/category";
 //    }
-    public String addUser(@Valid Category category, BindingResult result) {
+    public String addCategory(@Valid Category category, BindingResult result) {
         if (result.hasErrors()) {
             return "redirect:/admin/category/add";
         }
@@ -78,6 +78,5 @@ public class CategoryController {
         categoryRepository.save(category);
         return "redirect:/admin/category";
     }
-
 
 }

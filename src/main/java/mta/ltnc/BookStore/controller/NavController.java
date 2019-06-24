@@ -13,11 +13,11 @@ public class NavController {
         if (SecurityUtils.isCurrentUserInRole(AuthoritiesConstants.ADMIN)) {
             return "redirect:/admin/dashboard";
         } else {
-            if (SecurityUtils.isCurrentUserInRole(AuthoritiesConstants.EMPLOYEE)) {
+            if (SecurityUtils.isCurrentUserInRole(AuthoritiesConstants.SALE)) {
                 return "redirect:/employee/sale";
             } else {
-                if (SecurityUtils.isCurrentUserInRole(AuthoritiesConstants.CHECKER)) {
-                    return "redirect:/checker";
+                if (SecurityUtils.isCurrentUserInRole(AuthoritiesConstants.WAREHOUSE)) {
+                    return "redirect:/employee/warehouse";
                 } else
                     return "index";
             }
@@ -44,11 +44,11 @@ public class NavController {
         if (SecurityUtils.isCurrentUserInRole(AuthoritiesConstants.ADMIN)) {
             return "redirect:/admin/index";
         } else {
-            if (SecurityUtils.isCurrentUserInRole(AuthoritiesConstants.EMPLOYEE)) {
+            if (SecurityUtils.isCurrentUserInRole(AuthoritiesConstants.SALE)) {
                 return "redirect:/employee/sale";
             } else {
-                if (SecurityUtils.isCurrentUserInRole(AuthoritiesConstants.CHECKER)) {
-                    return "redirect:/checker";
+                if (SecurityUtils.isCurrentUserInRole(AuthoritiesConstants.WAREHOUSE)) {
+                    return "redirect:/employee/warehouse";
                 } else
                     return "common/profile";
             }

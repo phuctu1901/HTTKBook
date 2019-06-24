@@ -99,14 +99,7 @@
                     <h4 class="card-title">PRODUCTS SALES</h4>
                 </div>
                 <div class="card-body">
-                    <div class="card-block">
-                        <div class="chart-info mb-3 ml-3">
-                            <span class="gradient-blackberry d-inline-block rounded-circle mr-1" style="width:15px; height:15px;"></span> Sales
-                            <span class="gradient-mint d-inline-block rounded-circle mr-1 ml-2" style="width:15px; height:15px;"></span> Visits
-                        </div>
-                        <div id="line-area" class="height-350 lineArea">
-                        </div>
-                    </div>
+                    <div id="status_chart" flex></div>
                 </div>
             </div>
         </div>
@@ -431,5 +424,33 @@
 </div>
 
 
+<th:block layout:fragment="scripts">
+    <script src="https://code.highcharts.com/highcharts.src.js"></script>
+
+    <script>
+
+        Highcharts.chart('status_chart', {
+            chart: {
+                type: 'column',
+            },
+            title: {
+                text: 'Thống kê tình trạng hóa đơn online'
+            },
+            xAxis: {
+                categories: ['Đang xử lý', 'Đang giao hàng', 'Đã giao hàng', 'Đã hủy']
+            },
+            yAxis: {
+                title: {
+                    text: 'Số lượng'
+                }
+            },
+            series: [{
+                showInLegend: false,
+                name: 'Số lượng',
+                data: [4,4,4,4]
+            }]
+        });
+    </script>
+</th:block>
 </body>
 </html>
