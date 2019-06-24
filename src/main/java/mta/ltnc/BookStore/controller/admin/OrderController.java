@@ -48,9 +48,10 @@ public class OrderController {
             @RequestParam("page") Optional<Integer> page,
             @RequestParam("size") Optional<Integer> size) {
         int currentPage = page.orElse(1);
-        int pageSize = size.orElse(5);
+        int pageSize = size.orElse(3);
 
         Page<Order> data = orderService.findPaginated(PageRequest.of(currentPage - 1, pageSize));
+//        Page<Order> data = orderService.findPaginatedByCreateDate(PageRequest.of(currentPage - 1, pageSize), start_time, end_time);
         ModelAndView modelAndView = new ModelAndView("admin/order/index");
         modelAndView.addObject("page", data);
 

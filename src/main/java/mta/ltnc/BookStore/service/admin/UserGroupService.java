@@ -1,7 +1,7 @@
 package mta.ltnc.BookStore.service.admin;
 
-import mta.ltnc.BookStore.entity.Order;
-import mta.ltnc.BookStore.repositories.OrderRepository;
+import mta.ltnc.BookStore.entity.UserGroup;
+import mta.ltnc.BookStore.repositories.UserGroupRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -9,35 +9,27 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import java.sql.Date;
 import java.util.Collections;
 import java.util.List;
 
 @Service
-public class OrderService {
+public class UserGroupService {
     @Autowired
-    private OrderRepository repo;
+    private UserGroupRepository repo;
 
     @Autowired
     private CategoryService service;
 
-    public List<Order> findAll(){
+    public List<UserGroup> findAll(){
         return repo.findAll();
     }
 
-//    public  List<Order> searchByDate(){return repo}
-
-    public Page<Order> findPaginated(Pageable pageable) {
+    public Page<UserGroup> findPaginated(Pageable pageable) {
         int pageSize = pageable.getPageSize();
         int currentPage = pageable.getPageNumber();
         int startItem = currentPage * pageSize;
-        List<Order> list;
-        Date start = new Date(2019,1,12);
-        Date end = new Date(2019,12,6);
-        System.out.println("End time: "+ end);
-
-        List<Order> data = repo.findAllByCreatedDateBetween(start, end);
-        System.out.print(data);
+        List<UserGroup> list;
+        List<UserGroup> data = repo.findAll();
         if (data.size() < startItem) {
             list = Collections.emptyList();
         } else {
@@ -45,11 +37,8 @@ public class OrderService {
             list = data.subList(startItem, toIndex);
         }
 
-        Page<Order> page
-                = new PageImpl<Order>(list, PageRequest.of(currentPage, pageSize), data.size());
+        Page<UserGroup> page
+                = new PageImpl<UserGroup>(list, PageRequest.of(currentPage, pageSize), data.size());
         return page;
     }
-
-
-
 }

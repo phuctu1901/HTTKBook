@@ -3,6 +3,7 @@ package mta.ltnc.BookStore.entity;
 import lombok.Data;
 
 import javax.persistence.*;
+import java.sql.Date;
 import java.sql.Timestamp;
 
 @Data
@@ -13,9 +14,9 @@ public class Order {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-//    @Basic
-//    @Column(name = "CreateDate", nullable = true)
-//    private Timestamp createDate;
+    @Basic
+    @Column(name = "CreatedDate", nullable = true)
+    private Date createdDate;
     @Basic
     @Column(name = "ShipName", nullable = true, length = 50)
     private String shipName;

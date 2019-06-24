@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html xmlns:layout="https://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="/admin/layout/index"
+      xmlns:th="https://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <title>Sửa thông tin</title>
+</head>
+<body>
+<div layout:fragment="main-content">
+
+    <!-- Basic form layout section start -->
+    <section id="horizontal-form-layouts">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h4 class="card-title" id="horz-layout-basic">Thông tin tài khoản</h4>
+                    </div>
+                    <div class="card-body">
+                        <div class="px-3">
+
+                            <form class="form form-horizontal"
+                                  action="#" th:action="@{/admin/user/editRequest}"
+                                  th:object="${addUser}"
+                                  method="post">
+                                <div class="form-body">
+                                    <h4 class="form-section"><i class="ft-bookmark"></i> Thông tin tài khoản
+                                    </h4>
+                                    <input type="hidden" th:field="*{id}" >
+                                    <input type="hidden" th:field="*{createdDate}" >
+
+                                    <!--                                    <input th:field="*id" hidden>-->
+                                    <div class="form-group row">
+                                        <label class="col-md-3 label-control">Tên người dùng: </label>
+                                        <div class="col-md-9">
+                                            <input th:field="*{name}" class="form-control"
+                                                   type="text"
+                                            >
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group row">
+                                        <label class="col-md-3 label-control">Tên đăng nhập: </label>
+                                        <div class="col-md-9">
+                                            <input th:field="*{userName}" class="form-control"
+                                                   type="text"
+                                            >
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group row">
+                                        <label class="col-md-3 label-control">Email: </label>
+                                        <div class="col-md-9">
+                                            <input th:field="*{email}" class="form-control"
+                                                   type="email"
+                                            >
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group row">
+                                        <label class="col-md-3 label-control">Số điện thoại: </label>
+                                        <div class="col-md-9">
+                                            <input th:field="*{phone}" class="form-control"
+                                                   type="text"
+                                            >
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group row">
+                                        <label class="col-md-3 label-control">Địa chỉ: </label>
+                                        <div class="col-md-9">
+                                            <input th:field="*{address}" class="form-control"
+                                                   type="text"
+                                            >
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group row">
+                                        <label class="col-md-3 label-control">Quyền: </label>
+                                        <div class="col-md-9">
+                                            <select id="parent_id" name="parent_id"
+                                                    class="form-control" th:field="*{userGroup}">
+
+                                                <option th:each="userGroup : ${userGroups}" th:value="${userGroup.id}"
+                                                        th:text="${userGroup.name}">
+                                                </option>
+                                            </select>
+                                        </div>
+                                    </div>
+
+
+
+
+
+
+
+                                    <div class="form-group row">
+                                        <label class="col-md-3 label-control">Trạng thái: </label>
+                                        <div class="col-md-3">
+
+                                            <select id="isActive" name="isActive"
+                                                    class="form-control" th:field="*{status}">
+                                                <option value="0" selected="" disabled="">Chọn trạng thái cho danh
+                                                    mục
+                                                </option>
+                                                <option value=0>Không kích hoạt</option>
+                                                <option value=1>Kích hoạt</option>
+                                            </select>
+                                        </div>
+                                    </div>
+
+
+                                </div>
+
+
+                                <div class="form-actions">
+                                    <button type="button" class="btn btn-raised btn-warning mr-1">
+                                        <i class="ft-x"></i> Reset
+                                    </button>
+                                    <button type="submit" class="btn btn-raised btn-primary">
+                                        <i class="fa fa-check-square-o"></i> Save
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- // Basic form layout section end -->
+
+</div>
+
+
+</body>
+</html>
