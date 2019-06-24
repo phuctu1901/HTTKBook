@@ -27,15 +27,26 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.jdbcAuthentication()
-                .usersByUsernameQuery("select username, password, activated from account where username=?")
-                .authoritiesByUsernameQuery("select username, authority_name from account_authority where username=?")
+                .usersByUsernameQuery("select user_name as username, password, status as enable from [user] where user_name=?")
+                .authoritiesByUsernameQuery("select [user].user_name as username, user_group.name as role from user_group join [user] on [user].user_groupid = user_group.id where user_name=?")
                 .dataSource(dataSource).passwordEncoder(passwordEncoder());
     }
 
+//    @Override
+//    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+//        auth.inMemoryAuthentication()
+//                .withUser("phuctu1901").password(passwordEncoder().encode("12345678")).roles("admin2")
+//                .and()
+//                .withUser("user2").password(passwordEncoder().encode("user2Pass")).roles("USER")
+//                .and()
+//                .withUser("admin").password(passwordEncoder().encode("adminPass")).roles("ADMIN");
+//    }
     @Override
     protected void configure(final HttpSecurity http) throws Exception {
         http.authorizeRequests().antMatchers("/image/**").permitAll().antMatchers("/").permitAll()
                 .antMatchers("/admin/**").hasRole("ADMIN")
+                .antMatchers("/register").permitAll()
+//                .antMatchers("/admin/").permitAll()
                 .antMatchers("/employee/**").hasRole("EMPLOYEE")
                 .antMatchers("/order").hasRole("CUSTOMER")
                 .antMatchers("/checker").hasRole("CHECKER")

@@ -18,4 +18,6 @@ public interface CategoryRepository extends JpaRepository<Category, Long>, JpaSp
     @Query("SELECT new mta.ltnc.BookStore.dto.client.CategoryDto(c,COUNT(c.name)) "
             + "FROM Category c LEFT JOIN BookCategory bc ON c = bc.category LEFT JOIN Book b ON bc = b.bookCategory GROUP BY c")
     List<CategoryDto> getAllWithouListBookCate();
+    @Override
+    List<Category> findAll();
 }
