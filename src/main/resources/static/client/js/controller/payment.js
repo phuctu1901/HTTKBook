@@ -31,3 +31,21 @@
           return false;
      }
 }
+$(document).ready(function () {
+     $('#cart').DataTable({
+          "bSort": false,
+          "language": {
+               "lengthMenu": "Hiển thị _MENU_ sản phẩm mỗi trang",
+               "search": "Tìm kiếm:",
+               "paginate": {
+                    "previous": "Trước",
+                    "next": "Sau"
+               }
+          },
+          "aLengthMenu": [[5, 10, 100, -1], [5, 10, 100, "All"]],
+          "iDisplayLength": 5,
+          "fnInfoCallback": function (oSettings, iStart, iEnd, iMax, iTotal, sPre) {
+               return iStart + " to " + iEnd;
+          }
+     });
+});

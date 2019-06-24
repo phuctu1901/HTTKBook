@@ -18,12 +18,18 @@ public interface BookRepository extends JpaRepository<Book, Long>, JpaSpecificat
 
     @Query("SELECT new mta.ltnc.BookStore.dto.client.BookDto(b) FROM Book b")
     List<BookDto> getAllDto();
+
     @Query("SELECT new mta.ltnc.BookStore.dto.client.BookDto(b) FROM Book b WHERE b.id = :id")
     BookDto getOneDto(@Param("id")Long id);
+
     @Query("SELECT new mta.ltnc.BookStore.dto.client.BookDto(b) FROM Book b WHERE b.author.id = :authorId")
     List<BookDto> getSameAuthorDto(@Param("authorId")Long authorId);
+
     @Query("SELECT new mta.ltnc.BookStore.dto.client.BookDto(b) FROM Book b WHERE b.bookCategory.id = :bookCategoryId")
     List<BookDto> getSameBookCategoryDto(@Param("bookCategoryId")Long bookCategoryId);
+
     @Query("SELECT new mta.ltnc.BookStore.dto.client.BookDto(b) FROM Book b WHERE b.publisher.id = :publisherId")
     List<BookDto> getSamePublisherDto(@Param("publisherId")Long publisherId);
+
+    List<BookDto> getTop4ByOrderByBuysDesc();
 }

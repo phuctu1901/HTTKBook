@@ -3,7 +3,7 @@
       xmlns:th="https://www.thymeleaf.org">
 <body>
 <div th:fragment="card (book)"
-     class="box-product bookCate-@book.CategoryID col-lg-3 col-md-6 mt-2"
+     th:class="${'box-product bookCate-' + #strings.toString(book.bookCategoryId) + ' col-lg-3 col-md-6 mt-2'}"
      th:with="discount=${(book.price - book.promotionPrice) * 100 / book.price}">
      <div class="product" style="height:490px">
           <div class="box p-2 bg-light" style="height:490px">
@@ -47,7 +47,7 @@
                          <th:block th:if ="${book.price != book.promotionPrice}">
                               <div class="row">
                                    <div class="col-8 old-price"
-                                        th:text="${'VNĐ ' + #numbers.formatDecimal(book.price, 0, 'COMMA', 0, 'POINT')}"></div>
+                                        th:text="${#numbers.formatDecimal(book.price, 0, 'COMMA', 0, 'POINT') + ' VNĐ'}"></div>
                                    <div class="col">
                                         <a class="btn bg-transparent btn-add-cart p-0 m-0"
                                            th:href="@{/cart/add-cart(itemId = ${book.id})}"
@@ -58,18 +58,18 @@
                               </div>
                               <div class="row">
                                    <div class="col-8 sale-price"
-                                        th:text="${'VNĐ ' + #numbers.formatDecimal(book.promotionPrice, 0, 'COMMA', 0, 'POINT')}"></div>
+                                        th:text="${#numbers.formatDecimal(book.promotionPrice, 0, 'COMMA', 0, 'POINT') + ' VNĐ'}"></div>
                               </div>
                               <div class="row text-secondary" style="font-size:12px">
                                    <div class="col-8 text-secondary"
                                         th:text="${'Lượt xem: ' + #strings.toString(book.viewCount)}"></div>
-                                   <div class="col" th:text="${'Kho: ' + #strings.toString(book.inventory)}"></div>
+                                   <div class="col" th:text="${'Kho: ' + #strings.toString(book.inventory)}" style="font-size: 11px!important;"></div>
                               </div>
                          </th:block>
                          <th:block th:unless ="${book.price != book.promotionPrice}">
                               <div class="row">
                                    <div class="col price"
-                                        th:text="${'VNĐ ' + #numbers.formatDecimal(book.promotionPrice, 0, 'COMMA', 0, 'POINT')}"> 10.00</div>
+                                        th:text="${#numbers.formatDecimal(book.promotionPrice, 0, 'COMMA', 0, 'POINT') + ' VNĐ'}"> 10.00</div>
                               </div>
                          </th:block>
                     </div>

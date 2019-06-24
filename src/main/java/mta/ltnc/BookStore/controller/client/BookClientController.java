@@ -16,17 +16,17 @@ import java.util.List;
 
 @Controller
 @RequestMapping("/book")
-public class BookController {
+public class BookClientController {
     @Autowired
-    private BookService bookService;
+    private BookClientService bookService;
     @Autowired
-    private AuthorService authorService;
+    private AuthorClientService authorService;
     @Autowired
-    private PublisherService publisherService;
+    private PublisherClientService publisherService;
     @Autowired
-    private CategoryService categoryService;
+    private CategoryClientService categoryService;
     @Autowired
-    private BookCategoryService bookCategoryService;
+    private BookCategoryClientService bookCategoryService;
 //    @GetMapping("/list-book")
 //    public ModelAndView listBook(){
 //        List<BookDto> listBook = bookService.getAllDto();

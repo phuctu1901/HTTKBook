@@ -24,19 +24,19 @@ import java.util.List;
 @RequestMapping("/account")
 public class AccountController {
     @Autowired
-    private BookService bookService;
+    private BookClientService bookService;
     @Autowired
-    private AuthorService authorService;
+    private AuthorClientService authorService;
     @Autowired
-    private PublisherService publisherService;
+    private PublisherClientService publisherService;
     @Autowired
-    private CategoryService categoryService;
+    private CategoryClientService categoryService;
     @Autowired
     private AccountService accountService;
     @Autowired
-    private OrderService orderService;
+    private OrderClientService orderService;
     @Autowired
-    private CartService cartService;
+    private CartClientService cartService;
     @GetMapping("/register")
     public ModelAndView register(HttpSession session){
         ModelAndView mav = new ModelAndView("client/account/register");
@@ -91,17 +91,19 @@ public class AccountController {
         session.setAttribute("userName",u.getUserName());
         HashMap<Long, CartItemDto> currentCart = (HashMap<Long, CartItemDto>)session.getAttribute("cart");
         HashMap<Long, CartItemDto> dbCart = accountService.getCart(u.getId());
-        for (Long key : dbCart.keySet()) {
-            CartItemDto temp = currentCart.get(key);
-            if(temp == null){ // Neu trong datsbase khong co thi them vao
-                dbCart.put(key,currentCart.get(key));
-                CartItem cartItem = temp.toCartItem(bookService.findById(temp.getId()),u);
-                cartService.save(cartItem);
-            }
-            else{ // Neu co thi cong them so luong tuong ung
-                temp.setQuantity(temp.getQuantity()+currentCart.get(key).getQuantity());
-                dbCart.replace(key,temp);
-                cartService.updateQuantity(temp.getQuantity(),key,u.getId());
+        if (currentCart != null){
+            for (Long key : dbCart.keySet()) {
+                CartItemDto temp = currentCart.get(key);
+                if(temp == null){ // Neu trong datsbase khong co thi them vao
+                    dbCart.put(key,currentCart.get(key));
+                    CartItem cartItem = temp.toCartItem(bookService.findById(temp.getId()),u);
+                    cartService.save(cartItem);
+                }
+                else{ // Neu co thi cong them so luong tuong ung
+                    temp.setQuantity(temp.getQuantity()+currentCart.get(key).getQuantity());
+                    dbCart.replace(key,temp);
+                    cartService.updateQuantity(temp.getQuantity(),key,u.getId());
+                }
             }
         }
         session.setAttribute("cart", dbCart);

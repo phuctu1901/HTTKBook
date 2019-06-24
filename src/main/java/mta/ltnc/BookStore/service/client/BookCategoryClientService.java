@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-public class BookCategoryService {
+public class BookCategoryClientService {
     @Autowired
     private BookCategoryRepository bookCategoryRepository;
     public List<BookCateDto> getAll(){

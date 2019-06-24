@@ -3,7 +3,8 @@
       xmlns:th="https://www.thymeleaf.org"
       layout:decorate="~{client/shared/_layout}">
 <body>
-<script src="@{/client/js/controller/cartController.js}"></script>
+<th:block layout:fragment="content">
+<script th:src="@{/client/js/controller/cartController.js}"></script>
 <div id="cart_content">
      <div class="col-lg-12">
           <nav aria-label="breadcrumb">
@@ -18,12 +19,101 @@
                <div class="col-lg-9">
                     <div class="box" id="cart-content">
                          <!-- Cart -->
-                         <div th:replace="client/cart/content_cart :: content_cart (cart=${cart})"></div>
+                         <form th:action="@{/cart/update-cart-all}" method="post" id="form_cart">
+<!--                              <h1> Giỏ hàng của <span th:text="${session.userName == null ? '' : session.userName}"></span></h1>-->
+<!--                              <p class="text-muted">Bạn có <span id="tQuantity" th:text="${totalQuantity}"></span> sản phẩm trong giỏ của mình!</p>-->
+                              <div class="table-responsive">
+                                   <table class="table table-striped table-bordered" style="text-align:center;" id="cart">
+                                        <thead>
+                                        <tr>
+                                             <th scope="col">#</th>
+                                             <th scope="col" style="width:100px;">Sản phẩm</th>
+                                             <th scope="col">Tên sản phẩm</th>
+                                             <th scope="col" style="width:70px;padding:4px">Số lượng</th>
+                                             <th scope="col" style="width:85px">Đơn giá</th>
+                                             <th scope="col" style="width:55px">Khuyến mãi</th>
+                                             <th scope="col" style="width:85px">Tổng tiền</th>
+                                             <th scope="col">Chọn</th>
+                                             <th style="width:20px;padding:2px">Xóa</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <th:block th:each="i : ${session.cart}">
+                                             <tr class="cart-item">
+                                                  <!--                              th:text="${i.number}"-->
+                                                  <th scope="row" ></th>
+                                                  <td style="width:100px;">
+                                                       <!--                                   + ${i.image}-->
+                                                       <a th:href="@{/book/detail(id=${i.value.itemId})}"><img
+                                                               th:src="@{'/client/images/' }"
+                                                               th:alt="${'Image ' + i.value.name}" style="width:80px;height:120px"></a>
+                                                  </td>
+                                                  <td>
+                                                       <h4><a th:href="@{/book/detail(id = ${i.value.itemId})}" th:text="${i.value.name}"></a></h4>
+                                                  </td>
+                                                  <td style="padding:4px">
+                                                       <input class="form-control text-box single-line quantity"
+                                                              th:data-id="${i.value.itemId}" data-val="true"
+                                                              data-val-number="The field Quantity must be a number."
+                                                              th:id="${'quantity-'+#strings.toString(i.value.itemId)}" min="1"
+                                                              name="${'quantity-'+#strings.toString(i.value.itemId)}"
+                                                              style="width:70px" type="number" th:value="${#strings.toString(i.value.quantity)}">
+                                                  </td>
+                                                  <td th:text="${#numbers.formatDecimal(i.value.price, 0, 'COMMA', 0, 'POINT') + ' VNĐ'}"></td>
+                                                  <td th:text="${#numbers.formatDecimal(((i.value.promotion_price - i.value.price) * 100 / i.value.price), 0, 'COMMA', 0, 'POINT') + ' %'}"></td>
+                                                  <td th:text="${#numbers.formatDecimal((i.value.promotion_price*i.value.quantity), 0, 'COMMA', 0, 'POINT') + ' VNĐ'}"></td>
+                                                  <td th:id="${'selectItem-' + i.value.itemId}">
+                                                       <input th:if="${i.value.selected == true}" class="checkbox"
+                                                              th:id="${'Selected-'+i.value.itemId}" th:name="${'Selected-'+i.value.itemId}"
+                                                              type="checkbox" checked="checked" th:data-id="${i.value.itemId}" />
+                                                       <input th:unless="${i.value.selected = true}" class="checkbox"
+                                                              th:id="${'Selected-'+i.value.itemId}" th:name="${'Selected-'+i.value.itemId}"
+                                                              type="checkbox" th:data-id="${i.value.itemId}" />
+                                                  </td>
+                                                  <td style="padding:4px">
+                                                       <button class="btn btn-outline-danger show-modal" data-modal="delete_modal_@i.value.itemId"><i class="fa fa-trash-o fa-sm"></i></button>
+                                                  </td>
+                                             </tr>
+                                        </th:block>
+                                        </tbody>
+                                        <tfoot>
+                                        </tfoot>
+                                   </table>
+                              </div>
+                              <th:block th:each="i : ${session.cart}">
+                                   <div th:id="${'delete_modal_'+i.value.itemId}" tabindex="-1" role="dialog" aria-labelledby="Login" aria-hidden="true" class="modal fade">
+                                        <div class="modal-dialog modal-lg">
+                                             <div class="modal-content">
+                                                  <div class="modal-header">
+                                                       <h5 class="modal-title">Bạn có muốn xóa <span class="text-danger" th:text="${i.value.name}"></span> khỏi giỏ hàng?</h5>
+                                                  </div>
+                                                  <div class="modal-footer">
+                                                       <button class="btn btn-outline-danger close-modal btn-delete" th:data-modal="${'delete_modal_' + i.value.itemId}" data-id="${i.value.itemID}"><i class="fa fa-trash-o fa-sm"> Xóa</i></button>
+                                                       <button class="btn btn-outline-success close-modal" th:data-modal="${'delete_modal_' + i.value.itemId}"><i class="fa fa-times-circle-o fa-sm"> Hủy</i></button>
+                                                  </div>
+                                             </div>
+                                        </div>
+                                   </div>
+                              </th:block>
+                              <div class="box-footer d-flex justify-content-between flex-column flex-lg-row">
+                                   <div class="left"><a th:href="@{/home/index}" class="btn btn-outline-secondary"><i class="fa fa-chevron-left"></i> Tiếp tục mua sắm</a></div>
+                                   <div class="right">
+                                        <button type="submit" th:formaction="@{/order/order-detail}" class="btn btn-outline-secondary" id="btn-payment">Tiến hành thanh toán<i class="fa fa-chevron-right"></i></button>
+                                   </div>
+                              </div>
+                         </form>
+                         <script th:src="@{/client/js/controller/payment.js}"></script>
+                         <script>
+                              updatecartitemincart.init();
+                              deletecartitemincart.init();
+
+                              updateSelectedItems.init();
+                              payment.init();
+                         </script>
                          <!-- Cart end-->
                     </div>
                     <!-- List hot book-->
-                    <div class="box text-primary text-center font-weight-bold mb-0"> <h3 class="mb-0">Bán chạy nhất !!</h3></div>
-                    <div th:replace="client/book/list_book :: list_book (listBook=${listHot},namePath='Sách đang hot!!!')"></div>
+                    <div th:replace="client/book/list_book :: list_book (listBook=${listHot}, namePath='Sách đang hot!!!')"></div>
                     <hr />
                     <!-- End List hot book-->
                </div>
@@ -62,5 +152,6 @@
           updateSelectedItems.init();
      </script>
 </div>
+</th:block>
 </body>
 </html>

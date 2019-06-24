@@ -11,7 +11,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-public class BookService {
+public class BookClientService {
     @Autowired
     private BookRepository bookRepository;
 
@@ -62,5 +62,13 @@ public class BookService {
     }
     public Book findById(Long bookId){
         return bookRepository.findById(bookId).get();
+    }
+    public List<BookDto> getTop4ByOrdOrderByBuysDesc(){
+        List<BookDto> temp = bookRepository.getTop4ByOrderByBuysDesc();
+        temp = temp.size() > 4 ? temp.subList(0,3) : temp;
+        temp.forEach(x -> {
+            x.setListImages(bookImageRepository.getAllByBook(x.getId()));
+        });
+        return temp;
     }
 }
