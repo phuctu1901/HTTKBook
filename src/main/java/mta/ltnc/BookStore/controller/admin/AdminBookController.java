@@ -23,24 +23,24 @@ import java.util.stream.IntStream;
 
 
 @Controller
-public class BookController {
+public class AdminBookController {
     @Autowired
-    private BookService bookService;
+    private AdminBookBookService bookService;
 
     @Autowired
     private BookRepository bookRepository;
 
     @Autowired
-    private BookCategoryService bookCategoryService;
+    private AdminBookCategoryService bookCategoryService;
 
     @Autowired
-    private CategoryService categoryService;
+    private AdminCategoryService categoryService;
 
     @Autowired
-    private AuthorService authorService;
+    private AdminAuthorService authorService;
 
     @Autowired
-    private PublisherService publisherService;
+    private AdminPublisherService publisherService;
 
     @RequestMapping(value = "/admin/book", method = RequestMethod.GET)
     public ModelAndView listAllBook(

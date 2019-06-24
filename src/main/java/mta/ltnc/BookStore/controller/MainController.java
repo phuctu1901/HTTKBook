@@ -13,10 +13,7 @@ public class MainController {
 
 
 
-    @GetMapping("/admin/category")
-    public String manageCategory() {
-        return "admin/category";
-    }
+
     @GetMapping("/getauthor")
     public ResponseDto getAccount(@RequestParam Long id) {
         return authorService.test(id);

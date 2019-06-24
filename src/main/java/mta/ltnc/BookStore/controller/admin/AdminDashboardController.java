@@ -9,13 +9,13 @@ import org.springframework.web.servlet.ModelAndView;
 
 
 @Controller
-public class StaticController {
+public class AdminDashboardController {
     @Autowired
-    private CategoryService categoryService;
+    private AdminCategoryService categoryService;
 
-    @RequestMapping(value = {"/admin/static"}, method = RequestMethod.GET)
+    @RequestMapping(value = {"/admin/dashboard","/admin"}, method = RequestMethod.GET)
     public ModelAndView dashboard() {
-        ModelAndView modelAndView = new ModelAndView("admin/static/index");
+        ModelAndView modelAndView = new ModelAndView("admin/dashboard/index");
         modelAndView.addObject("categories", categoryService.findAll());
         return modelAndView;
     }

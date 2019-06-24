@@ -1,7 +1,7 @@
 package mta.ltnc.BookStore.service.admin;
 
-import mta.ltnc.BookStore.entity.UserGroup;
-import mta.ltnc.BookStore.repositories.UserGroupRepository;
+import mta.ltnc.BookStore.entity.AuthorType;
+import mta.ltnc.BookStore.repositories.AuthorTypeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -13,23 +13,23 @@ import java.util.Collections;
 import java.util.List;
 
 @Service
-public class UserGroupService {
+public class AdminAuthorTypeService {
     @Autowired
-    private UserGroupRepository repo;
+    private AuthorTypeRepository repo;
 
     @Autowired
-    private CategoryService service;
+    private AdminCategoryService service;
 
-    public List<UserGroup> findAll(){
+    public List<AuthorType> findAll(){
         return repo.findAll();
     }
 
-    public Page<UserGroup> findPaginated(Pageable pageable) {
+    public Page<AuthorType> findPaginated(Pageable pageable) {
         int pageSize = pageable.getPageSize();
         int currentPage = pageable.getPageNumber();
         int startItem = currentPage * pageSize;
-        List<UserGroup> list;
-        List<UserGroup> data = repo.findAll();
+        List<AuthorType> list;
+        List<AuthorType> data = repo.findAll();
         if (data.size() < startItem) {
             list = Collections.emptyList();
         } else {
@@ -37,8 +37,8 @@ public class UserGroupService {
             list = data.subList(startItem, toIndex);
         }
 
-        Page<UserGroup> page
-                = new PageImpl<UserGroup>(list, PageRequest.of(currentPage, pageSize), data.size());
+        Page<AuthorType> page
+                = new PageImpl<AuthorType>(list, PageRequest.of(currentPage, pageSize), data.size());
         return page;
     }
 }

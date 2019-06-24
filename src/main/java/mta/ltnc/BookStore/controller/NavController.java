@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 public class NavController {
 
     @GetMapping("/")
-    public String index() {
+    public String mainnavcontroller() {
         if (SecurityUtils.isCurrentUserInRole(AuthoritiesConstants.ADMIN)) {
             return "redirect:/admin/dashboard";
         } else {

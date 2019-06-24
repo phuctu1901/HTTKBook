@@ -29,8 +29,8 @@ public class HomeController {
         HelpModelAndView.dataForLayout(mav,categoryService,publisherService,authorService,session);
         return mav;
     }
-    @GetMapping("/")
-    public ModelAndView index(HttpSession session) {
+    @GetMapping("/client")
+    public ModelAndView clientindex(HttpSession session) {
         AccountDto acc = new AccountDto();
         ModelAndView mav = new ModelAndView("client/home/index");
         HelpModelAndView.dataForLayout(mav,categoryService,publisherService,authorService,session);

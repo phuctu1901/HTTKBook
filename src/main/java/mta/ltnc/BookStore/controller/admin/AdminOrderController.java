@@ -20,27 +20,27 @@ import java.util.stream.IntStream;
 
 
 @Controller
-public class OrderController {
+public class AdminOrderController {
     @Autowired
-    private BookService bookService;
+    private AdminBookBookService bookService;
 
     @Autowired
     private BookRepository bookRepository;
 
     @Autowired
-    private BookCategoryService bookCategoryService;
+    private AdminBookCategoryService bookCategoryService;
 
     @Autowired
-    private CategoryService categoryService;
+    private AdminCategoryService categoryService;
 
     @Autowired
-    private AuthorService authorService;
+    private AdminAuthorService authorService;
 
     @Autowired
-    private PublisherService publisherService;
+    private AdminPublisherService publisherService;
 
     @Autowired
-    private OrderService orderService;
+    private AdminOrderService orderService;
 
     @RequestMapping(value = "/admin/order", method = RequestMethod.GET)
     public ModelAndView listAllOrder(
