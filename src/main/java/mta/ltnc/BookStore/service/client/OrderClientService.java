@@ -3,22 +3,28 @@ package mta.ltnc.BookStore.service.client;
 import mta.ltnc.BookStore.dto.client.BookDto;
 import mta.ltnc.BookStore.dto.client.OrderDetailDto;
 import mta.ltnc.BookStore.dto.client.OrderDto;
-import mta.ltnc.BookStore.repositories.BookImageRepository;
-import mta.ltnc.BookStore.repositories.OrderDetailRepository;
-import mta.ltnc.BookStore.repositories.OrderRepository;
+import mta.ltnc.BookStore.entity.Order;
+import mta.ltnc.BookStore.entity.User;
+import mta.ltnc.BookStore.repositories.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.sql.Timestamp;
+import java.util.Date;
 import java.util.List;
 
 @Service
-public class OrderService {
+public class OrderClientService {
     @Autowired
     private OrderRepository orderRepository;
     @Autowired
     private OrderDetailRepository orderDetailRepository;
     @Autowired
     private BookImageRepository bookImageRepository;
+    @Autowired
+    private UserRepository userRepository;
+    @Autowired
+    private StatusOrderRepository statusOrderRepository;
     public List<OrderDto> findAllByUserId(Long userId){
         List<OrderDto> ls = orderRepository.findAllByUserId(userId);
         Long num = Long.parseLong("1");
@@ -39,5 +45,16 @@ public class OrderService {
             num++;
         }
         return ls;
+    }
+    public Order createOrder(Long userId){
+        Order order = new Order();
+        User user = userRepository.findById(userId).get();
+        order.setCreatedDate(new Timestamp(new Date().getTime()));
+        order.setUser(user);
+        order.setStatusOrder(statusOrderRepository.findById(2).get());
+        order.setShipAdress(user.getAddress());
+        order.setShipEmail(user.getEmail());
+        order.setShipMobile(user.getPhone());
+        return order;
     }
 }

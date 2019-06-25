@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-public class PublisherService {
+public class PublisherClientService {
     @Autowired
     private PublisherRepository publisherRepository;
     public List<PublisherDto> getAll(){

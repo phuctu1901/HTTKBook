@@ -1,9 +1,9 @@
 package mta.ltnc.BookStore.controller.client;
 
 import mta.ltnc.BookStore.dto.client.AccountDto;
-import mta.ltnc.BookStore.service.client.AuthorService;
-import mta.ltnc.BookStore.service.client.CategoryService;
-import mta.ltnc.BookStore.service.client.PublisherService;
+import mta.ltnc.BookStore.service.client.AuthorClientService;
+import mta.ltnc.BookStore.service.client.CategoryClientService;
+import mta.ltnc.BookStore.service.client.PublisherClientService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,14 +13,14 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.servlet.http.HttpSession;
 
 @Controller
-@RequestMapping("/")
+@RequestMapping("/home")
 public class HomeController {
     @Autowired
-    private AuthorService authorService;
+    private AuthorClientService authorService;
     @Autowired
-    private PublisherService publisherService;
+    private PublisherClientService publisherService;
     @Autowired
-    private CategoryService categoryService;
+    private CategoryClientService categoryService;
 
     @GetMapping("/test")
     public ModelAndView manageCategory(HttpSession session) {
@@ -29,8 +29,8 @@ public class HomeController {
         HelpModelAndView.dataForLayout(mav,categoryService,publisherService,authorService,session);
         return mav;
     }
-    @GetMapping("/client")
-    public ModelAndView clientindex(HttpSession session) {
+    @GetMapping("/index")
+    public ModelAndView index(HttpSession session) {
         AccountDto acc = new AccountDto();
         ModelAndView mav = new ModelAndView("client/home/index");
         HelpModelAndView.dataForLayout(mav,categoryService,publisherService,authorService,session);

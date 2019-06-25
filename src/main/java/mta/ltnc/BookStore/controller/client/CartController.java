@@ -2,12 +2,9 @@ package mta.ltnc.BookStore.controller.client;
 
 import mta.ltnc.BookStore.dto.client.CartItemDto;
 import mta.ltnc.BookStore.entity.CartItem;
-import mta.ltnc.BookStore.service.client.AccountService;
-import mta.ltnc.BookStore.service.client.BookService;
-import mta.ltnc.BookStore.service.client.CartService;
+import mta.ltnc.BookStore.service.client.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -20,11 +17,17 @@ import java.util.HashMap;
 @RequestMapping("/cart")
 public class CartController {
     @Autowired
-    private CartService cartService;
+    private CartClientService cartService;
     @Autowired
-    private BookService bookService;
+    private BookClientService bookService;
     @Autowired
     private AccountService accountService;
+    @Autowired
+    private AuthorClientService authorService;
+    @Autowired
+    private PublisherClientService publisherService;
+    @Autowired
+    private CategoryClientService categoryService;
     @PostMapping("/add-cart-item")
     public void addCartItem(HttpSession session, Long itemId, Integer quantity){
         if(session.getAttribute("cart") == null){ // Chua co thi khoi tao
@@ -94,9 +97,51 @@ public class CartController {
         cart.replace(itemId, temp);
         session.setAttribute("cart", cart);
     }
-    @GetMapping("/index")
+    @PostMapping("/delete-cart-item")
+    public ModelAndView DeleteCartItem(@RequestParam("ItemID")Long itemId ,HttpSession session){
+        if (session.getAttribute("cart") == null){
+            ModelAndView mav = new ModelAndView("client/home/redirect_home_index");
+            mav.addObject("message","Hãy thêm vào giỏ hàng trước!");
+            return mav;
+        }
+        removeCartItem(session,itemId);
+        ModelAndView mav = new ModelAndView("client/cart/index::content_cart");
+        HelpModelAndView.dataForLayout(mav,categoryService,publisherService,authorService,session);
+        HashMap<Long,CartItemDto> cart = (HashMap<Long,CartItemDto>)session.getAttribute("cart");
+        Long totalPrice = new Long(0);
+        Long realPrice = new Long(0);
+        for(Long i : cart.keySet()) {
+            totalPrice = totalPrice + cart.get(i).getPrice();
+            realPrice = realPrice + cart.get(i).getPromotion_price();
+        };
+        Long totalPromotion = totalPrice - realPrice;
+        mav.addObject("listHot",bookService.getTop4ByOrdOrderByBuysDesc());
+        mav.addObject("totalPrice",totalPrice);
+        mav.addObject("totalPromotion",totalPromotion);
+        mav.addObject("realPrice",realPrice);
+        return mav;
+    }
+    @PostMapping("/index")
     public ModelAndView index(HttpSession session){
+        if (session.getAttribute("userId") == null || session.getAttribute("cart") == null){
+            ModelAndView mav = new ModelAndView("client/home/redirect_home_index");
+            mav.addObject("message","Hãy thêm vào giỏ hàng trước!");
+            return mav;
+        }
         ModelAndView mav = new ModelAndView("client/cart/index");
+        HelpModelAndView.dataForLayout(mav,categoryService,publisherService,authorService,session);
+        HashMap<Long,CartItemDto> cart = (HashMap<Long,CartItemDto>)session.getAttribute("cart");
+        Long totalPrice = new Long(0);
+        Long realPrice = new Long(0);
+        for(Long i : cart.keySet()) {
+            totalPrice = totalPrice + cart.get(i).getPrice();
+            realPrice = realPrice + cart.get(i).getPromotion_price();
+        };
+        Long totalPromotion = totalPrice - realPrice;
+        mav.addObject("listHot",bookService.getTop4ByOrdOrderByBuysDesc());
+        mav.addObject("totalPrice",totalPrice);
+        mav.addObject("totalPromotion",totalPromotion);
+        mav.addObject("realPrice",realPrice);
         return mav;
     }
 }

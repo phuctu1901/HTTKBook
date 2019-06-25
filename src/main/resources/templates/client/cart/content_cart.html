@@ -1,7 +1,10 @@
 ﻿<!DOCTYPE html>
-<html xmlns:th="https://www.thymeleaf.org">
+<html xmlns:layout="https://www.ultraq.net.nz/thymeleaf/layout"
+        xmlns:th="https://www.thymeleaf.org">
 <body>
-<form th:fragment="content_cart (cart,totalQuantity)" action="@{/cart/update-cart-all}" method="post" id="form_cart">// Bam 1 lan update tat ca
+<th:block th:fragment="content_cart">
+     <span>fasdfsfd</span>
+<form th:action="@{/cart/update-cart-all}" method="post" id="form_cart">
      <h1> Giỏ hàng của <span th:text="${session.userName}"></span></h1>
      <p class="text-muted">Bạn có <span id="tQuantity" th:text="${totalQuantity}"></span> sản phẩm trong giỏ của mình!</p>
      <div class="table-responsive">
@@ -20,29 +23,40 @@
                     </tr>
                </thead>
                <tbody>
-                    <th:block th:each="i : ${cart}">
+                    <th:block th:each="i : ${session.cart}">
                          <tr class="cart-item">
-                              <th scope="row" th:text="#{i.number}"></th>
+<!--                              th:text="${i.number}"-->
+                              <th scope="row" ></th>
                               <td style="width:100px;">
-                                   <a href="@{/book/detail(id=${i.itemId})}"><img
-                                      th:src="@{'/client/images/' + ${i.image}}"
-                                      th:alt="${'Image ' + i.name}" style="width:80px;height:120px"></a>
+<!--                                   + ${i.image}-->
+                                   <a th:href="@{/book/detail(id=${i.itemId})}"><img
+                                      th:src="@{'/client/images/' }"
+                                      th:alt="${'Image ' + i.value.name}" style="width:80px;height:120px"></a>
                               </td>
                               <td>
-                                   <h4><a href="@{/book/detail(id = ${i.itemID})}" th:text="${i.name}"></a></h4>
+                                   <h4><a th:="@{/book/detail(id = ${i.value.itemId})}" th:text="${i.value.name}"></a></h4>
                               </td>
                               <td style="padding:4px">
-                                   <input class="form-control text-box single-line quantity" th:data-id="${i.itemId}" data-val="true" data-val-number="The field Quantity must be a number." th:id="${'quantity-'+i.itemId'}" min="1" name="${'quantity-'+i.itemId'}" style="width:70px" type="number" value="${i.quantity}">
+                                   <input class="form-control text-box single-line quantity"
+                                          th:data-id="${i.value.itemId}" data-val="true"
+                                          data-val-number="The field Quantity must be a number."
+                                          th:id="${'quantity-'+i.value.itemId'}" min="1"
+                                          name="${'quantity-'+i.value.itemId'}"
+                                          style="width:70px" type="number" value="${i.value.quantity}">
                               </td>
-                              <td th:text="${#numbers.formatDecimal(i.price, 0, 'COMMA', 0, 'POINT') + ' VNĐ'}"></td>
-                              <td th:text="${#numbers.formatDecimal(((i.PromotionPrice - i.Price) * 100 / i.Price), 0, 'COMMA', 0, 'POINT') + ' %'}"></td>
-                              <td th:text="${#numbers.formatDecimal((i.promotionPrice*i.quantity), 0, 'COMMA', 0, 'POINT') + ' VNĐ'}"></td>
+                              <td th:text="${#numbers.formatDecimal(i.value.price, 0, 'COMMA', 0, 'POINT') + ' VNĐ'}"></td>
+                              <td th:text="${#numbers.formatDecimal(((i.value.PromotionPrice - i.Price) * 100 / i.Price), 0, 'COMMA', 0, 'POINT') + ' %'}"></td>
+                              <td th:text="${#numbers.formatDecimal((i.value.promotionPrice*i.quantity), 0, 'COMMA', 0, 'POINT') + ' VNĐ'}"></td>
                               <td id="selectItem_@i.ItemID">
-                                   <input th:if="{i.selected == true}" class="checkbox" th:id="${'Selected-'+i.itemId}" th:name="${'Selected-'+i.itemId}" type="checkbox" checked="checked" th:data-id="${i.itemId}" />
-                                   <input th:unless="{i.selected == true}" class="checkbox" th:id="${'Selected-'+i.itemId}" th:name="${'Selected-'+i.itemId}" type="checkbox" th:data-id="${i.itemId}" />
+                                   <input th:if="{i.value.selected == true}" class="checkbox"
+                                          th:id="${'Selected-'+i.value.itemId}" th:name="${'Selected-'+i.value.itemId}"
+                                          type="checkbox" checked="checked" th:data-id="${i.value.itemId}" />
+                                   <input th:unless="{i.value.selected == true}" class="checkbox"
+                                          th:id="${'Selected-'+i.value.itemId}" th:name="${'Selected-'+i.value.itemId}"
+                                          type="checkbox" th:data-id="${i.value.itemId}" />
                               </td>
                               <td style="padding:4px">
-                                   <button class="btn btn-outline-danger show-modal" data-modal="delete_modal_@i.ItemID"><i class="fa fa-trash-o fa-sm"></i></button>
+                                   <button class="btn btn-outline-danger show-modal" data-modal="delete_modal_@i.value.itemId"><i class="fa fa-trash-o fa-sm"></i></button>
                               </td>
                          </tr>
                     </th:block>
@@ -56,11 +70,11 @@
                <div class="modal-dialog modal-lg">
                     <div class="modal-content">
                          <div class="modal-header">
-                              <h5 class="modal-title">Bạn có muốn xóa <span class="text-danger" th:text="${i.name}"></span> khỏi giỏ hàng?</h5>
+                              <h5 class="modal-title">Bạn có muốn xóa <span class="text-danger" th:text="${i.value.name}"></span> khỏi giỏ hàng?</h5>
                          </div>
                          <div class="modal-footer">
-                              <button class="btn btn-outline-danger close-modal btn-delete" th:data-modal="${'delete_modal_' + i.itemId}" data-id="${i.itemID}"><i class="fa fa-trash-o fa-sm"> Xóa</i></button>
-                              <button class="btn btn-outline-success close-modal" th:data-modal="${'delete_modal_' + i.itemId}"><i class="fa fa-times-circle-o fa-sm"> Hủy</i></button>
+                              <button class="btn btn-outline-danger close-modal btn-delete" th:data-modal="${'delete_modal_' + i.value.itemId}" data-id="${i.value.itemID}"><i class="fa fa-trash-o fa-sm"> Xóa</i></button>
+                              <button class="btn btn-outline-success close-modal" th:data-modal="${'delete_modal_' + i.value.itemId}"><i class="fa fa-times-circle-o fa-sm"> Hủy</i></button>
                          </div>
                     </div>
                </div>
@@ -101,5 +115,6 @@
           });
      });
 </script>
+</th:block>
 </body>
 </html>

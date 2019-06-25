@@ -10,10 +10,10 @@
                     <p>Hãy nhanh tay mua cho mình những cuốn sách đổi đời ngay hôm nay !</p>
                </div>
                <div class="col-6">
-                    <th:block th:if="${session.user_id == null}">
-                         <p>Hãy <a th:href="@{/user/register}">đăng ký</a> ngay hôm nay để có thể mua hàng mọi lúc mọi nơi !</p>
+                    <th:block th:if="${session.userId == null}">
+                         <p>Hãy <a th:href="@{/account/register}">đăng ký</a> ngay hôm nay để có thể mua hàng mọi lúc mọi nơi !</p>
                     </th:block>
-                    <th:block th:unless="${session.user_id == null}">
+                    <th:block th:unless="${session.userId == null}">
                          <p>Hãy <a th:href="@{/book_by}">tìm kiếm</a> cuốn sách của bạn ngay hôm nay để có những trải nghiệm mới !</p>
                     </th:block>
                </div>

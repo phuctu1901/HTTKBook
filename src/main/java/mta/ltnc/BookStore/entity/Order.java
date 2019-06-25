@@ -3,7 +3,6 @@ package mta.ltnc.BookStore.entity;
 import lombok.Data;
 
 import javax.persistence.*;
-import java.sql.Date;
 import java.sql.Timestamp;
 
 @Data
@@ -15,37 +14,37 @@ public class Order {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @Basic
-    @Column(name = "CreatedDate", nullable = true)
-    private Date createdDate;
+    @Column(name = "created_date", nullable = true)
+    private Timestamp createdDate;
+
     @Basic
-    @Column(name = "ShipName", nullable = true, length = 50)
+    @Column(name = "ship_name", nullable = true, length = 50)
     private String shipName;
     @Basic
-    @Column(name = "ShipMobile", nullable = true, length = 50)
+    @Column(name = "ship_mobile", nullable = true, length = 50)
     private String shipMobile;
     @Basic
-    @Column(name = "ShipEmail", nullable = true, length = 50)
+    @Column(name = "ship_email", nullable = true, length = 50)
     private String shipEmail;
     @Basic
-    @Column(name = "ShipAdress", nullable = true, length = 255)
+    @Column(name = "ship_adress", nullable = true, length = 255)
     private String shipAdress;
 
     @Basic
-    @Column(name = "ShippedDate", nullable = true)
+    @Column(name = "shipped_date", nullable = true)
     private Timestamp shippedDate;
     @Basic
-    @Column(name = "TotalPrice", nullable = true, precision = 0)
+    @Column(name = "total_price", nullable = true, precision = 0)
     private Integer totalPrice;
     @ManyToOne
-    @JoinColumn(name = "ShippingType", referencedColumnName = "ID")
+    @JoinColumn(name = "shipping_type", referencedColumnName = "ID")
     private ShippingType shippingType;
     @ManyToOne
-    @JoinColumn(name = "Status", referencedColumnName = "ID")
+    @JoinColumn(name = "status", referencedColumnName = "ID")
     private StatusOrder statusOrder;
 
     @ManyToOne
     @JoinColumn(name = "created_id", referencedColumnName = "ID")
     private User user;
-
 
 }
