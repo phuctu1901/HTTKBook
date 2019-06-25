@@ -19,7 +19,7 @@ public class NavController {
                 if (SecurityUtils.isCurrentUserInRole(AuthoritiesConstants.WAREHOUSE)) {
                     return "redirect:/employee/warehouse";
                 } else
-                    return "index";
+                    return "/home/index";
             }
         }
     }

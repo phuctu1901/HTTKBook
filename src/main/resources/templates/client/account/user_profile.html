@@ -4,151 +4,154 @@
       layout:decorate="~{client/shared/_layout}">
 <body>
 <th:block layout:fragment="content">
-<div class="row">
-<div class="col-lg-9">
-     <div class="box">
-          <h1>Thông tin tài khoản</h1>
-          <p class="lead">Kiểm tra và thay đổi thông tin tài khoản cá nhân tại đây</p>
-          <p class="text-muted">Lưu ý: Để đảm bảo an toàn cho tài khoản của bạn, hãy đổi mật khẩu định kỳ 30 ngày</p>
-          <h3>Đổi mật khẩu</h3>
-          <form action="@{/account/change-password}" method="post" id="form_password">
-               <div class="row">
-                    <div class="col-md-6">
-                         <div class="form-group">
-                              <label for="password_old">Mật khẩu cũ</label>
-                              <input id="password_old" type="password" class="form-control">
-                         </div>
-                         <div style="color:red" id="check_password_old"></div>
-                    </div>
-               </div>
-               <div class="row">
-                    <div class="col-md-6">
-                         <div class="form-group">
-                              <label for="password_1">Mật khẩu mới</label>
-                              <input id="password_1" name="password_1" type="password" class="form-control">
-                         </div>
-                         <div id="check_newpassword"style="color:red"></div>
-                    </div>
-                    <div class="col-md-6">
-                         <div class="form-group">
-                              <label for="password_2">Xác nhận mật khẩu mới</label>
-                              <input id="password_2" type="password" class="form-control">
-                         </div>
-                         <div style="color:red" id="check_repassword"></div>
-                    </div>
-               </div>
-               <!-- /.row-->
-               <div class="col-md-12 text-center">
-                    <button class="btn btn-primary" id="btn_change_pass"><i class="fa fa-save"></i> Tạo mật khẩu mới</button>
-               </div>
-          </form>
-          <h3 class="mt-5">Thông tin tài khoản</h3>
-          <div id="all">
-               <div id="content">
-                    <div class="container">
-                         <form method="post" th:action="@{/account/change-profile}" id = "form_change_profile" th:object="${user}" >
-                              <div class="form-group">
-                                   <div class="row pb-1" style="height:65px">
-                                        <div class="col-lg-6">
-                                             <div class="input-group">
-                                                  <span class="btn btn-primary noneradius-right"><i class="fa fa-user-circle icon" aria-hidden="true"></i></span>
-                                                  <input type="text" class="form-control" name="name" id="Name" placeholder="Enter your Name" th:value="*{name}"/>
-                                             </div>
-                                             <div class="text-danger" id="er_Name"></div>
-                                        </div>
-                                        <div class="col-lg-6">
-                                             <div class="input-group">
-                                                  <span class="btn btn-primary noneradius-right"><i class="fa fa-user icon" aria-hidden="true"></i></span>
-                                                  <input type="text" class="form-control" name="UserName" id="UserName" placeholder="Enter your UserName" onkeyup="check('UserName');" th:value="*{userName}"/>
-
-                                             </div>
-                                             <div class="text-danger" id="er_Email"></div>
-                                        </div>
+     <div class="row">
+          <div class="col-lg-9">
+               <div class="box">
+                    <h1>Thông tin tài khoản</h1>
+                    <p class="lead">Kiểm tra và thay đổi thông tin tài khoản cá nhân tại đây</p>
+                    <p class="text-muted">Lưu ý: Để đảm bảo an toàn cho tài khoản của bạn, hãy đổi mật khẩu định kỳ 30 ngày</p>
+                    <h3>Đổi mật khẩu</h3>
+                    <!--          <form action="@{/account/change-password}" method="GET" id="form_password">-->
+                    <form th:action="@{/rest/change-password}" id="form_password" method="POST" onsubmit="return checkall();"  >
+                         <div class="row">
+                              <div class="col-md-6">
+                                   <div class="form-group">
+                                        <label for="password_old">Mật khẩu cũ</label>
+                                        <input id="password_old" type="password" class="form-control">
                                    </div>
-                                   <div class="row pb-1" style="height:65px">
-                                        <div class="col-lg-6">
-                                             <div class="input-group">
-                                                  <span class="btn btn-primary noneradius-right"><i class="fa fa-home icon" aria-hidden="true"></i></span>
-                                                  <input type="text" class="form-control" name="address" id="Address" placeholder="Enter your address" th:value="*{address}">
-                                             </div>
-                                             <div class="text-danger" id="er_Address"></div>
-                                        </div>
-                                        <div class="col-lg-6">
-                                             <div class="input-group">
-                                                  <span class="btn btn-primary noneradius-right"><i class="fa fa-envelope-o icon" aria-hidden="true"></i></span>
-                                                  <input type="text"  class="form-control" name="email" id="Email" placeholder="Enter your Email" th:value="*{email}" />
-
-                                             </div>
-                                             <div class="text-danger" id="er_Email"></div>
-                                        </div>
-                                   </div>
-                                   <div class="row pb-1" style="height:65px">
-                                        <div class="col-lg-6">
-                                             <div class="input-group">
-                                                  <span class="btn btn-primary noneradius-right"><i class="fa fa-phone icon" aria-hidden="true"></i></span>
-                                                  <input type="tel" class="form-control" name="phone" id="Phone" placeholder="Enter your Phome number" th:value="*{phone}" />
-
-                                             </div>
-                                             <div class="text-danger" id="er_Phone"></div>
-                                        </div>
-                                        <div class="col-lg-6">
-
-                                        </div>
-                                   </div>
-                                   <div class="row pb-1" style="height:65px">
-                                        <div class="col-lg-3"></div>
-                                        <div class="col-lg-6">
-                                             <div class="input-group">
-                                                  <span class="btn btn-primary noneradius-right"><i class="fa fa-lock icon" aria-hidden="true"></i></span>
-                                                  <input type="password" class="form-control" name="password" id="password" placeholder="Enter your Password" />
-                                                  <br />
-                                             </div>
-                                             <div class="text-danger" id="er_password"></div>
-                                        </div>
-                                   </div>
-                                   <div class="row pb-1">
-                                        <div class="col-lg-7">
-                                        </div>
-                                        <div class="col-lg-4">
-                                             <button type="submit" class="btn btn-primary">Submit</button>
-                                             <button type="reset" class="btn btn-primary">Reset</button>
-                                             <button type="button" class="btn btn-primary"> Cancel</button>
-                                        </div>
-                                        <div class="col-lg-1">
-
-                                        </div>
-                                   </div>
+                                   <div style="color:red" id="check_password_old"></div>
                               </div>
-                         </form>
+                         </div>
+                         <div class="row">
+                              <div class="col-md-6">
+                                   <div class="form-group">
+                                        <label for="password_1">Mật khẩu mới</label>
+                                        <input id="password_1" name="password_1" type="password" class="form-control">
+                                   </div>
+                                   <div id="check_newpassword"style="color:red"></div>
+                              </div>
+                              <div class="col-md-6">
+                                   <div class="form-group">
+                                        <label for="password_2">Xác nhận mật khẩu mới</label>
+                                        <input id="password_2" type="password" class="form-control">
+                                   </div>
+                                   <div style="color:red" id="check_repassword"></div>
+                              </div>
+                         </div>
+                         <!-- /.row-->
+                         <div class="col-md-12 text-center">
+                              <button class="btn btn-primary" id="btn_change_pass"><i class="fa fa-save"></i> Tạo mật khẩu mới</button>
+                         </div>
+                    </form>
+                    <h3 class="mt-5">Thông tin tài khoản</h3>
+                    <div id="all">
+                         <div id="content">
+                              <div class="container">
+                                   <!--                         <form  th:action="@{/account/change-profile}" method="POST" onsubmit="return checkall();" id = "form_change_profile" th:object="${user}" >-->
+                                   <form th:action="@{/rest/change-profile}" method="POST" onsubmit="return checkall();" th:object="${user}">
+                                        <!--                         <form th:action="@{/rest/change-profile}" method="POST" onsubmit="return checkall();" >-->
+                                        <div class="form-group">
+                                             <div class="row pb-1" style="height:65px">
+                                                  <div class="col-lg-6">
+                                                       <div class="input-group">
+                                                            <span class="btn btn-primary noneradius-right"><i class="fa fa-user-circle icon" aria-hidden="true"></i></span>
+                                                            <input type="text" class="form-control" name="name" id="Name" placeholder="Enter your Name" th:value="*{name}"/>
+                                                       </div>
+                                                       <div class="text-danger" id="er_Name"></div>
+                                                  </div>
+                                                  <div class="col-lg-6">
+                                                       <div class="input-group">
+                                                            <span class="btn btn-primary noneradius-right"><i class="fa fa-user icon" aria-hidden="true"></i></span>
+                                                            <input type="text" class="form-control" name="UserName" id="UserName" placeholder="Enter your UserName" onkeyup="check('UserName');" th:value="*{userName}"/>
+
+                                                       </div>
+                                                       <div class="text-danger" id="er_Email"></div>
+                                                  </div>
+                                             </div>
+                                             <div class="row pb-1" style="height:65px">
+                                                  <div class="col-lg-6">
+                                                       <div class="input-group">
+                                                            <span class="btn btn-primary noneradius-right"><i class="fa fa-home icon" aria-hidden="true"></i></span>
+                                                            <input type="text" class="form-control" name="address" id="Address" placeholder="Enter your address" th:value="*{address}">
+                                                       </div>
+                                                       <div class="text-danger" id="er_Address"></div>
+                                                  </div>
+                                                  <div class="col-lg-6">
+                                                       <div class="input-group">
+                                                            <span class="btn btn-primary noneradius-right"><i class="fa fa-envelope-o icon" aria-hidden="true"></i></span>
+                                                            <input type="text"  class="form-control" name="email" id="Email" placeholder="Enter your Email" th:value="*{email}" />
+
+                                                       </div>
+                                                       <div class="text-danger" id="er_Email"></div>
+                                                  </div>
+                                             </div>
+                                             <div class="row pb-1" style="height:65px">
+                                                  <div class="col-lg-6">
+                                                       <div class="input-group">
+                                                            <span class="btn btn-primary noneradius-right"><i class="fa fa-phone icon" aria-hidden="true"></i></span>
+                                                            <input type="tel" class="form-control" name="phone" id="Phone" placeholder="Enter your Phome number" th:value="*{phone}" />
+
+                                                       </div>
+                                                       <div class="text-danger" id="er_Phone"></div>
+                                                  </div>
+                                                  <div class="col-lg-6">
+
+                                                  </div>
+                                             </div>
+                                             <div class="row pb-1" style="height:65px">
+                                                  <div class="col-lg-3"></div>
+                                                  <div class="col-lg-6">
+                                                       <div class="input-group">
+                                                            <span class="btn btn-primary noneradius-right"><i class="fa fa-lock icon" aria-hidden="true"></i></span>
+                                                            <input type="password" class="form-control" name="password" id="password" placeholder="Enter your Password" />
+                                                            <br />
+                                                       </div>
+                                                       <div class="text-danger" id="er_password"></div>
+                                                  </div>
+                                             </div>
+                                             <div class="row pb-1">
+                                                  <div class="col-lg-7">
+                                                  </div>
+                                                  <div class="col-lg-4">
+                                                       <button type="submit" class="btn btn-primary">Submit</button>
+                                                       <button type="reset" class="btn btn-primary">Reset</button>
+                                                       <button type="button" class="btn btn-primary"> Cancel</button>
+                                                  </div>
+                                                  <div class="col-lg-1">
+
+                                                  </div>
+                                             </div>
+                                        </div>
+                                   </form>
+                              </div>
+                         </div>
                     </div>
                </div>
           </div>
-     </div>
-</div>
-<div class="col-lg-3">
-     <!--
-     *** CUSTOMER MENU ***
-     _________________________________________________________
-     -->
-     <div class="card sidebar-menu">
-          <div class="card-header">
-               <h3 class="h4 card-title">Danh mục</h3>
+          <div class="col-lg-3">
+               <!--
+               *** CUSTOMER MENU ***
+               _________________________________________________________
+               -->
+               <div class="card sidebar-menu">
+                    <div class="card-header">
+                         <h3 class="h4 card-title">Danh mục</h3>
+                    </div>
+                    <div class="card-body">
+                         <ul class="nav nav-pills flex-column">
+                              <ul class="nav nav-pills flex-column">
+                                   <a th:href="@{/account/user-profile}" class="nav-link active"><i class="fa fa-user"></i> Thông tin tài khoản</a>
+                                   <a th:href="@{/account/list-order}" class="nav-link "><i class="fa fa-list"></i> Danh sách đơn hàng</a>
+                                   <a th:href="@{/account/logout}" class="nav-link"><i class="fa fa-sign-out"></i> Đăng xuất</a>
+                              </ul>
+                         </ul>
+                    </div>
+               </div>
+               <!-- /.col-lg-3-->
+               <!-- *** CUSTOMER MENU END ***-->
           </div>
-          <div class="card-body">
-               <ul class="nav nav-pills flex-column">
-                    <ul class="nav nav-pills flex-column">
-                         <a th:href="@{/account/user-profile}" class="nav-link active"><i class="fa fa-user"></i> Thông tin tài khoản</a>
-                         <a th:href="@{/account/list-order}" class="nav-link "><i class="fa fa-list"></i> Danh sách đơn hàng</a>
-                         <a th:href="@{/account/logout}" class="nav-link"><i class="fa fa-sign-out"></i> Đăng xuất</a>
-                    </ul>
-               </ul>
-          </div>
      </div>
-     <!-- /.col-lg-3-->
-     <!-- *** CUSTOMER MENU END ***-->
-</div>
-</div>
-<script th:src="@{/client/js/controller/accountController.js}"></script>
+     <script th:src="@{/client/js/controller/accountController.js}"></script>
 </th:block>
 </body>
 </html>

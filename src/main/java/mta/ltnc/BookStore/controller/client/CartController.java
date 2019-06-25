@@ -4,8 +4,9 @@ import mta.ltnc.BookStore.dto.client.CartItemDto;
 import mta.ltnc.BookStore.entity.CartItem;
 import mta.ltnc.BookStore.service.client.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
@@ -28,11 +29,13 @@ public class CartController {
     private PublisherClientService publisherService;
     @Autowired
     private CategoryClientService categoryService;
-    @PostMapping("/add-cart-item")
-    public void addCartItem(HttpSession session, Long itemId, Integer quantity){
+    @GetMapping("/add-cart")
+    public ModelAndView addCartItem(HttpSession session, @Param("itemId") Long itemId){
         if(session.getAttribute("cart") == null){ // Chua co thi khoi tao
             session.setAttribute("cart", new HashMap<Long, CartItemDto>());
         }
+        ModelAndView mav = new ModelAndView("client/home/redirect_home_index");
+        Integer quantity = 1;
         Long userId = (Long)session.getAttribute("userId");
         HashMap<Long,CartItemDto> cart = (HashMap<Long,CartItemDto>)session.getAttribute("cart"); // Lay gio hang hien tai
         CartItemDto temp = cart.get(itemId);
@@ -44,7 +47,7 @@ public class CartController {
                 cartService.save(cartItem);
             }
             session.setAttribute("cart", cart);
-            return;
+            return mav;
         }
         temp.setQuantity(temp.getQuantity() + quantity);
         if( userId != null){ // Neu da dang nhap thi cap nhat lai database
@@ -52,8 +55,9 @@ public class CartController {
         }
         cart.replace(itemId, temp);
         session.setAttribute("cart", cart);
+        return mav;
     }
-    @PostMapping("/remove-cart-item")
+    @GetMapping("/remove-cart-item")
     public void removeCartItem(HttpSession session, Long itemId){
         if(session.getAttribute("cart") == null){
             return;
@@ -79,7 +83,7 @@ public class CartController {
         }
         session.setAttribute("cart", cart);
     }
-    @PostMapping("/update-cart-item")
+    @GetMapping("/update-cart-item")
     public void updateCartItem(HttpSession session, @RequestParam("itemId")Long itemId, @RequestParam("quantity")Integer quantity){
         if(session.getAttribute("cart") == null){ // Chua co thi hack a?
             return;
@@ -97,7 +101,7 @@ public class CartController {
         cart.replace(itemId, temp);
         session.setAttribute("cart", cart);
     }
-    @PostMapping("/delete-cart-item")
+    @GetMapping("/delete-cart-item")
     public ModelAndView DeleteCartItem(@RequestParam("ItemID")Long itemId ,HttpSession session){
         if (session.getAttribute("cart") == null){
             ModelAndView mav = new ModelAndView("client/home/redirect_home_index");
@@ -121,9 +125,9 @@ public class CartController {
         mav.addObject("realPrice",realPrice);
         return mav;
     }
-    @PostMapping("/index")
+    @GetMapping("/index")
     public ModelAndView index(HttpSession session){
-        if (session.getAttribute("userId") == null || session.getAttribute("cart") == null){
+        if (session.getAttribute("cart") == null){
             ModelAndView mav = new ModelAndView("client/home/redirect_home_index");
             mav.addObject("message","Hãy thêm vào giỏ hàng trước!");
             return mav;

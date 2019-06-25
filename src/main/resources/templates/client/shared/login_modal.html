@@ -62,51 +62,51 @@
           };
           the_modal();
      </script>
-     <script>
-          // Them gio hang
-          var addcartitem = {
-               init: function () {
-                    addcartitem.responseEvents();
-               },
-               responseEvents: function () {
-                    $('.btn-add-cart').off('click').on('click', function (e) {
-                         e.preventDefault();
-                         var btn = $(this);
-                         var ItemID = btn.data('itemid');
-                         $.ajax({
-                              url: '/Cart/AddCartItem',
-                              type: 'POST',
-                              data: { ItemID: ItemID },
-                              dataType: 'json',
-                              success: function (check) {
-                                   if (check == 2) {
-                                        var cart;
-                                        $.ajax({
-                                             type: 'POST',
-                                             url: '/Cart/Cart',
-                                             data: cart,
-                                             dataType: 'json',
-                                             success: function (cart) {
-                                                  alert('Sản phẩm đã được thêm vào giỏ hàng!');
-                                                  $('#cart-icon').text(cart.totalquantity);
-                                             }
-                                        });
-                                   }
-                                   else if (check == 1) {
-                                        show_modal('login-modal');
-                                        alert("Hãy đăng nhập trước nào");
-                                   }
-                                   else {
-                                        alert("Số lượng trong kho không đủ");
-                                   }
-                              }
-                         })
-                         return false;
-                    });
-                    return false;
-               }
-          }
-     </script>
+<!--     <script>-->
+<!--          // Them gio hang-->
+<!--          var addcartitem = {-->
+<!--               init: function () {-->
+<!--                    addcartitem.responseEvents();-->
+<!--               },-->
+<!--               responseEvents: function () {-->
+<!--                    $('.btn-add-cart').off('click').on('click', function (e) {-->
+<!--                         e.preventDefault();-->
+<!--                         var btn = $(this);-->
+<!--                         var ItemID = btn.data('itemid');-->
+<!--                         $.ajax({-->
+<!--                              url: '/rest/cart/add-cart',-->
+<!--                              type: 'POST',-->
+<!--                              data: { itemId: ItemID },-->
+<!--                              dataType: 'json',-->
+<!--                              success: function (check) {-->
+<!--                                   if (check == 2) {-->
+<!--                                        var cart;-->
+<!--                                        $.ajax({-->
+<!--                                             type: 'POST',-->
+<!--                                             url: '/cart/Cart',-->
+<!--                                             data: cart,-->
+<!--                                             dataType: 'json',-->
+<!--                                             success: function (cart) {-->
+<!--                                                  alert('Sản phẩm đã được thêm vào giỏ hàng!');-->
+<!--                                                  $('#cart-icon').text(cart.totalquantity);-->
+<!--                                             }-->
+<!--                                        });-->
+<!--                                   }-->
+<!--                                   else if (check == 1) {-->
+<!--                                        show_modal('login-modal');-->
+<!--                                        alert("Hãy đăng nhập trước nào");-->
+<!--                                   }-->
+<!--                                   else {-->
+<!--                                        alert("Số lượng trong kho không đủ");-->
+<!--                                   }-->
+<!--                              }-->
+<!--                         })-->
+<!--                         return false;-->
+<!--                    });-->
+<!--                    return false;-->
+<!--               }-->
+<!--          }-->
+<!--     </script>-->
 </div>
 </body>
 </html>

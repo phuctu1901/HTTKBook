@@ -32,4 +32,5 @@ public interface BookRepository extends JpaRepository<Book, Long>, JpaSpecificat
     List<BookDto> getSamePublisherDto(@Param("publisherId")Long publisherId);
 
     List<BookDto> getTop4ByOrderByBuysDesc();
+    List<BookDto> getTop8ByOrderByBuysDesc();
 }

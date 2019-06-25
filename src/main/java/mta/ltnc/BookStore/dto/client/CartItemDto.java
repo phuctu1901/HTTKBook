@@ -34,7 +34,7 @@ public class CartItemDto {
         this.itemId = book.getId();
         this.name = book.getName();
         this.author = book.getAuthor();
-        this.image = null;
+        this.image = book.getImage1();
         this.price = book.getPrice();
         this.promotion_price = book.getPromotionPrice();
         this.inventory = book.getInventory();
@@ -48,7 +48,7 @@ public class CartItemDto {
         this.itemId = cartItem.getBook().getId();
         this.name = cartItem.getBook().getName();
         this.author = cartItem.getBook().getAuthor().getName();
-        this.image = null;
+        this.image = cartItem.getBook().getImage1();
         this.price = cartItem.getBook().getPrice();
         this.promotion_price = cartItem.getBook().getPromotionPrice();
         this.inventory = cartItem.getBook().getInventory();

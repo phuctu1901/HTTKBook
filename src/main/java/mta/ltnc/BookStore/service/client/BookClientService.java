@@ -71,4 +71,11 @@ public class BookClientService {
         });
         return temp;
     }
+    public List<BookDto> getTop8ByOrdOrderByBuysDesc(){
+        List<BookDto> temp = bookRepository.getTop8ByOrderByBuysDesc();
+        temp.forEach(x -> {
+            x.setListImages(bookImageRepository.getAllByBook(x.getId()));
+        });
+        return temp;
+    }
 }

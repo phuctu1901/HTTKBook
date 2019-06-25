@@ -36,6 +36,9 @@ public class Order {
     @Basic
     @Column(name = "total_price", nullable = true, precision = 0)
     private Integer totalPrice;
+    @Basic
+    @Column(name = "code", nullable = true, precision = 0)
+    private String code;
     @ManyToOne
     @JoinColumn(name = "shipping_type", referencedColumnName = "ID")
     private ShippingType shippingType;
