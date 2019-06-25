@@ -3,9 +3,9 @@
       layout:decorate="~{client/shared/_layout}"
       xmlns:th="https://www.thymeleaf.org">
 
-<div id="all">
+<div layout:fragment="content" id="all">
      <div id="content">
-          @{Html.RenderAction("Banner", "Home", new { count = 4, number = 1 }); }
+<!--          @{Html.RenderAction("Banner", "Home", new { count = 4, number = 1 }); }-->
 
           <!--
      *** ADVANTAGES HOMEPAGE ***
@@ -46,29 +46,28 @@
      *** HOT PRODUCT SLIDESHOW ***
      _________________________________________________________
      -->
-
-          @{Html.RenderAction("HotBook", "Book", null);}
-          @{Html.RenderAction("NewBook", "Book", null);}
+<div th:replace="client/book/list_book :: list_book(listBook=${listHot},namePath='Sách đang bán chạy')"></div>
+<!--          @{Html.RenderAction("HotBook", "Book", null);}-->
+<!--          @{Html.RenderAction("NewBook", "Book", null);}-->
 
           <!--
      *** GET INSPIRED ***
      _________________________________________________________
      -->
-          @{Html.RenderAction("BannerBottom", "Home", new { count = 4, number = 2 }); }
+<!--          @{Html.RenderAction("BannerBottom", "Home", new { count = 4, number = 2 }); }-->
           <!-- *** GET INSPIRED END ***-->
           <!--
      *** BLOG HOMEPAGE ***
      _________________________________________________________
      -->
 
-          @{Html.RenderAction("Blog", "Home");}
+<!--          @{Html.RenderAction("Blog", "Home");}-->
 
           <!-- /.container-->
           <!-- *** BLOG HOMEPAGE END ***-->
      </div>
 </div>
-@section jsFooter{
-<script>
+
+<script layout:fragment="jsFooter">
      addcartitem.init();
 </script>
-}
