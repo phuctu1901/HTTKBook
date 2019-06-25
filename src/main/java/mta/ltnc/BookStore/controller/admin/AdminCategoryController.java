@@ -2,7 +2,7 @@ package mta.ltnc.BookStore.controller.admin;
 
 import mta.ltnc.BookStore.entity.Category;
 import mta.ltnc.BookStore.repositories.CategoryRepository;
-import mta.ltnc.BookStore.service.admin.CategoryService;
+import mta.ltnc.BookStore.service.admin.AdminCategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -23,15 +23,15 @@ import java.util.stream.IntStream;
 
 
 @Controller
-public class CategoryController {
+public class AdminCategoryController {
     @Autowired
-    private CategoryService service;
+    private AdminCategoryService service;
 
     @Autowired
     private CategoryRepository categoryRepository;
 
     @RequestMapping(value = "/admin/category", method = RequestMethod.GET)
-    public ModelAndView listCategory(
+    public ModelAndView adminListCategory(
             Model model,
             @RequestParam("page") Optional<Integer> page,
             @RequestParam("size") Optional<Integer> size) {

@@ -20,27 +20,27 @@ import java.util.stream.IntStream;
 
 
 @Controller
-public class OrderController {
+public class AdminOrderController {
     @Autowired
-    private BookService bookService;
+    private AdminBookBookService bookService;
 
     @Autowired
     private BookRepository bookRepository;
 
     @Autowired
-    private BookCategoryService bookCategoryService;
+    private AdminBookCategoryService bookCategoryService;
 
     @Autowired
-    private CategoryService categoryService;
+    private AdminCategoryService categoryService;
 
     @Autowired
-    private AuthorService authorService;
+    private AdminAuthorService authorService;
 
     @Autowired
-    private PublisherService publisherService;
+    private AdminPublisherService publisherService;
 
     @Autowired
-    private OrderService orderService;
+    private AdminOrderService orderService;
 
     @RequestMapping(value = "/admin/order", method = RequestMethod.GET)
     public ModelAndView listAllOrder(
@@ -48,9 +48,10 @@ public class OrderController {
             @RequestParam("page") Optional<Integer> page,
             @RequestParam("size") Optional<Integer> size) {
         int currentPage = page.orElse(1);
-        int pageSize = size.orElse(5);
+        int pageSize = size.orElse(3);
 
         Page<Order> data = orderService.findPaginated(PageRequest.of(currentPage - 1, pageSize));
+//        Page<Order> data = orderService.findPaginatedByCreateDate(PageRequest.of(currentPage - 1, pageSize), start_time, end_time);
         ModelAndView modelAndView = new ModelAndView("admin/order/index");
         modelAndView.addObject("page", data);
 

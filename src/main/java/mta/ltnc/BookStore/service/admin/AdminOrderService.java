@@ -1,7 +1,7 @@
 package mta.ltnc.BookStore.service.admin;
 
-import mta.ltnc.BookStore.entity.AuthorType;
-import mta.ltnc.BookStore.repositories.AuthorTypeRepository;
+import mta.ltnc.BookStore.entity.Order;
+import mta.ltnc.BookStore.repositories.OrderRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -9,27 +9,35 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.sql.Date;
 import java.util.Collections;
 import java.util.List;
 
 @Service
-public class AuthorTypeService {
+public class AdminOrderService {
     @Autowired
-    private AuthorTypeRepository repo;
+    private OrderRepository repo;
 
     @Autowired
-    private CategoryService service;
+    private AdminCategoryService service;
 
-    public List<AuthorType> findAll(){
+    public List<Order> findAll(){
         return repo.findAll();
     }
 
-    public Page<AuthorType> findPaginated(Pageable pageable) {
+//    public  List<Order> searchByDate(){return repo}
+
+    public Page<Order> findPaginated(Pageable pageable) {
         int pageSize = pageable.getPageSize();
         int currentPage = pageable.getPageNumber();
         int startItem = currentPage * pageSize;
-        List<AuthorType> list;
-        List<AuthorType> data = repo.findAll();
+        List<Order> list;
+        Date start = new Date(2019,1,12);
+        Date end = new Date(2019,12,6);
+        System.out.println("End time: "+ end);
+
+        List<Order> data = repo.findAllByCreatedDateBetween(start, end);
+        System.out.print(data);
         if (data.size() < startItem) {
             list = Collections.emptyList();
         } else {
@@ -37,8 +45,11 @@ public class AuthorTypeService {
             list = data.subList(startItem, toIndex);
         }
 
-        Page<AuthorType> page
-                = new PageImpl<AuthorType>(list, PageRequest.of(currentPage, pageSize), data.size());
+        Page<Order> page
+                = new PageImpl<Order>(list, PageRequest.of(currentPage, pageSize), data.size());
         return page;
     }
+
+
+
 }

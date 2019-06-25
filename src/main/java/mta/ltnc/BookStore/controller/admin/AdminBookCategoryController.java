@@ -3,8 +3,8 @@ package mta.ltnc.BookStore.controller.admin;
 import mta.ltnc.BookStore.entity.BookCategory;
 import mta.ltnc.BookStore.entity.Category;
 import mta.ltnc.BookStore.repositories.BookCategoryRepository;
-import mta.ltnc.BookStore.service.admin.BookCategoryService;
-import mta.ltnc.BookStore.service.admin.CategoryService;
+import mta.ltnc.BookStore.service.admin.AdminBookCategoryService;
+import mta.ltnc.BookStore.service.admin.AdminCategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -23,12 +23,12 @@ import java.util.stream.IntStream;
 
 
 @Controller
-public class BookCategoryController {
+public class AdminBookCategoryController {
     @Autowired
-    private BookCategoryService bookCategoryService;
+    private AdminBookCategoryService bookCategoryService;
 
     @Autowired
-    private CategoryService categoryService;
+    private AdminCategoryService categoryService;
 
     @Autowired
     private BookCategoryRepository bookCategoryRepository;

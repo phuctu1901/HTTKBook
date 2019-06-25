@@ -4,10 +4,9 @@ import mta.ltnc.BookStore.dto.client.OrderDto;
 import mta.ltnc.BookStore.entity.Order;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
-import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.sql.Date;
 import java.util.List;
 
 /**
@@ -15,7 +14,7 @@ import java.util.List;
 */
 @Repository
 public interface OrderRepository extends JpaRepository<Order, Long>, JpaSpecificationExecutor<Order> {
-    @Query("SELECT new mta.ltnc.BookStore.dto.client.OrderDto(o) FROM Order o WHERE o.user.id = :userId ORDER BY o.createdDate")
-    List<OrderDto> findAllByUserId(@Param("userId") Long userId);
-
+//
+    List<Order> findAllByCreatedDateBetween(Date start, Date end);
+    List<OrderDto> findAllByUserId(Long userId);
 }

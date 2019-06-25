@@ -13,12 +13,12 @@ import java.util.Collections;
 import java.util.List;
 
 @Service
-public class BookCategoryService {
+public class AdminBookCategoryService {
     @Autowired
     private BookCategoryRepository bookCategoryRepository;
 
     @Autowired
-    private BookCategoryService bookCategoryService;
+    private AdminBookCategoryService bookCategoryService;
 
     public  List<BookCategory> findAll(){
         return bookCategoryRepository.findAll();

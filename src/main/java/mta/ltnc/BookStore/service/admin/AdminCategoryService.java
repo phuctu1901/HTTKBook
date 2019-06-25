@@ -1,35 +1,34 @@
 package mta.ltnc.BookStore.service.admin;
 
-import mta.ltnc.BookStore.entity.Order;
-import mta.ltnc.BookStore.repositories.OrderRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import mta.ltnc.BookStore.entity.Category;
+import mta.ltnc.BookStore.repositories.CategoryRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-
+import org.springframework.beans.factory.annotation.Autowired;
 import java.util.Collections;
 import java.util.List;
 
 @Service
-public class OrderService {
+public class AdminCategoryService {
     @Autowired
-    private OrderRepository repo;
+    private CategoryRepository repo;
 
     @Autowired
-    private CategoryService service;
+    private AdminCategoryService service;
 
-    public List<Order> findAll(){
+    public List<Category> findAll(){
         return repo.findAll();
     }
 
-    public Page<Order> findPaginated(Pageable pageable) {
+    public Page<Category> findPaginated(Pageable pageable) {
         int pageSize = pageable.getPageSize();
         int currentPage = pageable.getPageNumber();
         int startItem = currentPage * pageSize;
-        List<Order> list;
-        List<Order> data = repo.findAll();
+        List<Category> list;
+        List<Category> data = repo.findAll();
         if (data.size() < startItem) {
             list = Collections.emptyList();
         } else {
@@ -37,8 +36,9 @@ public class OrderService {
             list = data.subList(startItem, toIndex);
         }
 
-        Page<Order> page
-                = new PageImpl<Order>(list, PageRequest.of(currentPage, pageSize), data.size());
+        Page<Category> page
+                = new PageImpl<Category>(list, PageRequest.of(currentPage, pageSize), data.size());
+
         return page;
     }
 }
