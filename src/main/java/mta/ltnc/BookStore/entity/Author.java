@@ -22,7 +22,6 @@ public class Author {
     @Column(name = "Description", nullable = true, length = 2147483647)
     private String description;
 
-
     @ManyToOne
     @JoinColumn(name = "Image", referencedColumnName = "ID")
     private Image imageByImage;
