@@ -36,7 +36,7 @@ public class HomeController {
         AccountDto acc = new AccountDto();
         ModelAndView mav = new ModelAndView("client/home/index");
         HelpModelAndView.dataForLayout(mav,categoryService,publisherService,authorService,session);
-        mav.addObject("listHot",bookService.getTop4ByOrdOrderByBuysDesc());
+        mav.addObject("listHot",bookService.getTop8ByOrdOrderByBuysDesc());
         mav.addObject("title","Trang chủ");
         return mav;
     }

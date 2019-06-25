@@ -30,7 +30,7 @@ public class BookDto {
     private Boolean status;
     private String description;
     private Timestamp createDate;
-
+    private String image1;
     private String author;
     private Long authorId;
     private String publisher;
@@ -53,6 +53,7 @@ public class BookDto {
         this.viewCount = b.getViewCount();
         this.inventory = b.getInventory();
         this.status = b.getStatus();
+        this.image1 = b.getImage1();
         this.description = b.getDescription();
         this.createDate = b.getCreateDate();
         this.author = b.getAuthor().getName();

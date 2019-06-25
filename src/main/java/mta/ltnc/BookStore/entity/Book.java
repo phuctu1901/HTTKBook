@@ -54,6 +54,9 @@ public class Book {
     @Column(name = "Description", nullable = true, columnDefinition = "text")
     private String description;
     @Basic
+    @Column(name = "image1", nullable = true, columnDefinition = "text")
+    private String image1;
+    @Basic
     @Column(name = "CreateDate", nullable = true)
     private Timestamp createDate;
     @ManyToOne

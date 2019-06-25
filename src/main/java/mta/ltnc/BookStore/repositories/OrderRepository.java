@@ -17,4 +17,6 @@ public interface OrderRepository extends JpaRepository<Order, Long>, JpaSpecific
 //
     List<Order> findAllByCreatedDateBetween(Date start, Date end);
     List<OrderDto> findAllByUserId(Long userId);
+
+    Order findTop1ByCode(String code);
 }

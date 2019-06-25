@@ -155,7 +155,7 @@ public class AccountController {
         if (session.getAttribute("userId") != null) {
             session.invalidate();
         }
-        ModelAndView mav = new ModelAndView("redirect:/");
+        ModelAndView mav = new ModelAndView("client/home/redirect_home_index");
         return mav;
     }
 }
