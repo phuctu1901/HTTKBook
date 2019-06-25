@@ -2,6 +2,7 @@ package mta.ltnc.BookStore.controller.client;
 
 import mta.ltnc.BookStore.dto.client.AccountDto;
 import mta.ltnc.BookStore.service.client.AuthorClientService;
+import mta.ltnc.BookStore.service.client.BookClientService;
 import mta.ltnc.BookStore.service.client.CategoryClientService;
 import mta.ltnc.BookStore.service.client.PublisherClientService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,7 +22,8 @@ public class HomeController {
     private PublisherClientService publisherService;
     @Autowired
     private CategoryClientService categoryService;
-
+    @Autowired
+    private BookClientService bookService;
     @GetMapping("/test")
     public ModelAndView manageCategory(HttpSession session) {
         AccountDto acc = new AccountDto();
@@ -34,6 +36,7 @@ public class HomeController {
         AccountDto acc = new AccountDto();
         ModelAndView mav = new ModelAndView("client/home/index");
         HelpModelAndView.dataForLayout(mav,categoryService,publisherService,authorService,session);
+        mav.addObject("listHot",bookService.getTop4ByOrdOrderByBuysDesc());
         mav.addObject("title","Trang chủ");
         return mav;
     }
