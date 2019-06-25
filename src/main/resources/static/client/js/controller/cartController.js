@@ -42,7 +42,7 @@ var updatecartitemincart = {
                var quantity = $(this).val();
                $.ajax({
                     type: 'POST',
-                    url: '/Cart/UpdateQuantity',
+                    url: '/cart/update-quantity',
                     data: { ItemID: ItemID, quantity: quantity},
                     dataType: 'json',
                     success: function (res) {
@@ -53,7 +53,7 @@ var updatecartitemincart = {
                          // Cap nhat hien thi so hang trong gio
                          $.ajax({
                               type: 'POST',
-                              url: '/Cart/Cart',
+                              url: '/cart/cart',
                               data: null,
                               dataType: 'json',
                               success: function (cart) {
@@ -75,11 +75,11 @@ var updateSelectedItems = {
                var ItemID = parseInt($(this).data("id"));
                $.ajax({
                     type: 'POST',
-                    url: '/Cart/ChangeSelected',
-                    data: { ItemID: ItemID },
+                    url: '/cart/change-selected',
+                    data: { itemId: ItemID },
                     success: function (res) {
-                         $('#tPromotion').text(res.totalPromotion);
-                         $('#tPrice').text(res.totalPrice);
+                         $('#totalPromotion').text(res.totalPromotion);
+                         $('#totalPrice').text(res.totalPrice);
                          $('#realPrice').text(res.realPrice);
                     }
                })
@@ -99,7 +99,7 @@ var deletecartitemincart = {
                //var listShippingType = $('#listShippingType').val();
                $.ajax({
                     type: 'POST',
-                    url: '/Cart/DeleteCartItem',
+                    url: '/cart/delete-cart-item',
                     data: { ItemID: id},
                     dataType: 'json',
                     success: function (partialViewData) {
@@ -108,7 +108,7 @@ var deletecartitemincart = {
                          // Cap nhat hien thi so hang trong gio
                          $.ajax({
                               type: 'POST',
-                              url: '/Cart/Cart',
+                              url: '/cart/cart',
                               data: null,
                               dataType: 'json',
                               success: function (cart) {
@@ -165,7 +165,7 @@ var addcartitemincart = {
                var ItemID = btn.data('itemid');
                $.ajax({
                     type: 'POST',
-                    url: '/Cart/AddCartItemInCart',
+                    url: '/cart/add-cart-item-in-cart',
                     data: { ItemID: ItemID},
                     dataType: 'html',
                     success: function (partialViewData) {
@@ -174,7 +174,7 @@ var addcartitemincart = {
                               $('#cart-content').html(partialViewData);
                               $.ajax({
                                    type: 'POST',
-                                   url: '/Cart/Cart',
+                                   url: '/cart/cart',
                                    data: null,
                                    dataType: 'json',
                                    success: function (cart) {

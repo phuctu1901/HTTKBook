@@ -5,7 +5,6 @@ import mta.ltnc.BookStore.entity.CartItem;
 import mta.ltnc.BookStore.service.client.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -98,7 +97,31 @@ public class CartController {
         cart.replace(itemId, temp);
         session.setAttribute("cart", cart);
     }
-    @GetMapping("/index")
+    @PostMapping("/delete-cart-item")
+    public ModelAndView DeleteCartItem(@RequestParam("ItemID")Long itemId ,HttpSession session){
+        if (session.getAttribute("cart") == null){
+            ModelAndView mav = new ModelAndView("client/home/redirect_home_index");
+            mav.addObject("message","Hãy thêm vào giỏ hàng trước!");
+            return mav;
+        }
+        removeCartItem(session,itemId);
+        ModelAndView mav = new ModelAndView("client/cart/index::content_cart");
+        HelpModelAndView.dataForLayout(mav,categoryService,publisherService,authorService,session);
+        HashMap<Long,CartItemDto> cart = (HashMap<Long,CartItemDto>)session.getAttribute("cart");
+        Long totalPrice = new Long(0);
+        Long realPrice = new Long(0);
+        for(Long i : cart.keySet()) {
+            totalPrice = totalPrice + cart.get(i).getPrice();
+            realPrice = realPrice + cart.get(i).getPromotion_price();
+        };
+        Long totalPromotion = totalPrice - realPrice;
+        mav.addObject("listHot",bookService.getTop4ByOrdOrderByBuysDesc());
+        mav.addObject("totalPrice",totalPrice);
+        mav.addObject("totalPromotion",totalPromotion);
+        mav.addObject("realPrice",realPrice);
+        return mav;
+    }
+    @PostMapping("/index")
     public ModelAndView index(HttpSession session){
         if (session.getAttribute("userId") == null || session.getAttribute("cart") == null){
             ModelAndView mav = new ModelAndView("client/home/redirect_home_index");
