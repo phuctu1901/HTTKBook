@@ -2,6 +2,7 @@ package mta.ltnc.BookStore.repositories;
 
 import mta.ltnc.BookStore.dto.client.OrderDto;
 import mta.ltnc.BookStore.entity.Order;
+import mta.ltnc.BookStore.entity.StatusOrder;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.stereotype.Repository;
@@ -17,4 +18,5 @@ public interface OrderRepository extends JpaRepository<Order, Long>, JpaSpecific
 //
     List<Order> findAllByCreatedDateBetween(Date start, Date end);
     List<OrderDto> findAllByUserId(Long userId);
+    Long countAllByStatusOrder(StatusOrder statusOrder);
 }
